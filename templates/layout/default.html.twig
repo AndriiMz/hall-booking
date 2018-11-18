@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="{{ asset('build/app.css') }}">
+</head>
+<body>
+{% set currentPath = app.request.get('_route') %}
+<body>
+<div class="container">
+    <nav class="navbar navbar-light navbar-main">
+        <ul class="navbar-nav-left">
+            <li>
+                <a class="navbar-brand" href="#">
+                    <img src="{{ asset('assets/img/logo.png') }}"/>
+                </a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="#">Catalog</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">O firmie</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav-right">
+            <li>
+                <button type="button" class="btn btn-primary">Zaloguj się</button>
+            </li>
+            <li>
+                <button type="button" class="btn btn-success">Stwórz konto</button>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+{% block body %}{% endblock %}
+
+<footer >
+        <div class="container">
+            <div class="row">
+                <div class="col-sm">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Catalog</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">O firmie</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Informacje</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm">
+                    <address>
+                        <strong>Kontakt:</strong><br>
+                        555-555-555<br>
+                        kontakt@hall-booking.com<br>
+                        <abbr title="Phone">P:</abbr> (123) 456-7890
+                    </address>
+                </div>
+                <div class="col-sm">
+                    <img src="{{ asset('assets/img/logo.png') }}"/>
+                </div>
+            </div>
+        </div>
+</footer>
+<!-- /Main Content -->
+<script src="{{ asset('build/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+<div class="container-fluid">
+    <div class="main-hero">
+        <h2>Tekst tytulowy</h2>
+        <div class="form-group-hero">
+            <form class="form-inline ">
+                <div class="form-group mb-4">
+                    <label for="data-od" class="sr-only"></label>
+                    <input type="text" placeholder="Data od" class="form-control" id="data-od" value="">
+                </div>
+                <div class="form-group mx-sm-3 mb-4">
+                    <label for="data-do" class="sr-only"></label>
+                    <input type="text" placeholder="Data do" class="form-control" id="data-do" value="">
+                </div>
+                <button type="submit" class="btn btn-primary mb-4">Szukaj</button>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="container">
+<div class="popular-halls">
+    <h2 class="main-subtitle">Popularne sali</h2>
+    <div class="row">
+        <div class="col-sm">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{{ asset('assets/img/bg.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nazwa sali</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <span class="badge badge-pill badge-success" style="font-size: 24px; margin-bottom: 4px">100,-/godz.</span>
+                    <br/>
+                    <a href="#" class="btn btn-primary">Zobać</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{{ asset('assets/img/bg.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nazwa sali</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <span class="badge badge-pill badge-success" style="font-size: 24px; margin-bottom: 4px">100,-/godz.</span>
+                    <br/>
+                    <a href="#" class="btn btn-primary">Zobać</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm">
+            <div class="card" style="width: 100%;">
+                <img class="card-img-top" src="{{ asset('assets/img/bg.jpg') }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Nazwa sali</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <span class="badge badge-pill badge-success" style="font-size: 24px; margin-bottom: 4px">100,-/godz.</span>
+                    <br/>
+                    <a href="#" class="btn btn-primary">Zobać</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+{% endblock %}
