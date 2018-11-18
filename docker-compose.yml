@@ -1,0 +1,39 @@
+version: '3.1'
+services:
+    db:
+        image: mysql:5.7
+        volumes:
+            - ./data/mysql:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+            - MYSQL_DATABASE=${MYSQL_DATABASE}
+            - MYSQL_USER=${MYSQL_USER}
+            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+            - MYSQL_VERSION=5.7
+        ports:
+          - "33066:3306"
+        networks:
+            - "project-network"
+    php:
+        build:
+            context: docker/php7-fpm
+            args:
+                - TIMEZONE=${TIMEZONE}
+        ports:
+          - "${DEV_PORT}:80"
+        networks:
+            - "project-network"
+        volumes:
+            - ./:/var/www/symfony
+    nginx:
+        build: docker/nginx
+        networks:
+          - "project-network"
+        environment:
+          - VIRTUAL_HOST=project.net
+        volumes:
+            - ./:/var/www/symfony
+            - ./logs/nginx/:/var/log/nginx
+networks:
+  project-network:
+    driver: "bridge"
