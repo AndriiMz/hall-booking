@@ -15,7 +15,7 @@
     <nav class="navbar navbar-light navbar-main">
         <ul class="navbar-nav-left">
             <li>
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="{{ path('index') }}">
                     <img src="{{ asset('assets/img/logo.png') }}"/>
                 </a>
             </li>
@@ -29,12 +29,21 @@
             </li>
         </ul>
         <ul class="navbar-nav-right">
-            <li>
-                <button type="button" class="btn btn-primary">Zaloguj się</button>
-            </li>
-            <li>
-                <button type="button" class="btn btn-success">Stwórz konto</button>
-            </li>
+            {% if app.user is null %}
+                <li>
+                    <a href="{{ path('login') }}" class="btn btn-primary">Zaloguj się</a>
+                </li>
+                <li>
+                    <a href="{{ path('registration') }}" class="btn btn-success">Stwórz konto</a>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{{ path('account') }}" class="btn btn-primary">Twoje konto</a>
+                </li>
+                <li>
+                    <a href="{{ path('logout') }}" class="btn btn-default">Wyloguj</a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 </div>

@@ -1,0 +1,12 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+<div class="container">
+    <div class="btn-group btn-group-toggle">
+        {% if app.user.role == 'ADMIN_ROLE' %}
+            <a href="{{ path('staff_list') }}" class="btn btn-success btn-lg">
+                Pracownicy
+            </a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

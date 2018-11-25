@@ -62,3 +62,18 @@ footer {
     padding-top: 20px;
     border-top: 2px solid #007bff;
 }
+
+
+/*** -----  security view ----- ***/
+.login-form {
+    margin: 20px 200px;
+}
+
+.login-form h4 {
+    text-align: center;
+}
+
+.form-footer {
+    text-align: center;
+}
+/*** -----  end security view ----- ***/
