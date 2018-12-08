@@ -1,0 +1,48 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h3>Sale</h3>
+        <div class="btn-group btn-group-toggle">
+            <a href="{{ path('hall_add') }}" class="btn btn-success btn-lg">
+                Dodaj sale
+            </a>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nazwa</th>
+                <th scope="col">Miasto</th>
+                <th scope="col">Adresa</th>
+                <th scope="col">Powierzchnia</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for hall in halls %}
+                <tr>
+                    <th scope="row">{{ hall.id }}</th>
+                    <td>{{ hall.nazwa }}</td>
+                    <td>{{ hall.miasto }}</td>
+                    <td>{{ hall.adresa }}</td>
+                    <td>{{ hall.powierzchnia }}</td>
+                    <td>
+                        <a href="{{ path('prices_list', {id: hall.id }) }}" class="btn btn-primary btn-xs">
+                            ceny
+                        </a>
+                        <a href="{{ path('images_list', {id: hall.id }) }}" class="btn btn-primary btn-xs">
+                            zdjęcia
+                        </a>
+                        <a href="{{ path('hall_update', {id: hall.id}) }}" class="btn btn-success btn-xs">
+                            edytuj
+                        </a>
+                        <a href="{{ path('hall_remove', {id: hall.id}) }}" class="btn btn-danger btn-xs">
+                            usuń
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

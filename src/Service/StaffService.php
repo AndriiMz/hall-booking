@@ -4,33 +4,57 @@ namespace App\Service;
 
 use App\Entity\User;
 use App\Enum\UserRoleEnum;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class RegistrationService
+class StaffService
 {
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+    /**
+     * @var EntityManagerInterface
+     */
     private $em;
+
     /**
      * @var UserPasswordEncoderInterface
      */
     private $encoder;
 
     /**
+     * StaffService constructor.
+     * @param UserRepository $userRepository
      * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $encoder
      */
-    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function __construct(
+        UserRepository $userRepository,
+        EntityManagerInterface $em,
+        UserPasswordEncoderInterface $encoder
+    )
     {
+        $this->userRepository = $userRepository;
         $this->em = $em;
         $this->encoder = $encoder;
+    }
+
+    /**
+     * @return User[]
+     */
+    public function getList(): array
+    {
+        return $this->userRepository->findBy(['role' => UserRoleEnum::STAFF_ROLE]);
     }
 
     /**
      * @param Request $request
      * @return User
      */
-    public function fromRequest(Request $request): User
+    public function addUser(Request $request): User
     {
         $user = new User();
         $user->setFirstName($request->get('firstName'));
@@ -42,7 +66,7 @@ class RegistrationService
         $user->setPlainPassword($password);
         $user->setPassword($this->encoder->encodePassword($user, $password));
 
-        $user->setRole(UserRoleEnum::CLIENT_ROLE);
+        $user->setRole(UserRoleEnum::STAFF_ROLE);
 
         $this->em->persist($user);
         $this->em->flush();
@@ -51,26 +75,21 @@ class RegistrationService
     }
 
     /**
-     * @param Request $request
+     * @param int $id
      * @return User
      */
-    public function fromBookingRequest(Request $request): User
+    public function deleteUser(int $id): User
     {
-        $user = new User();
-        $user->setFirstName($request->get('firstName'));
-        $user->setLastName($request->get('lastName'));
-        $user->setEmail($request->get('phone') . '@in.com');
-        $user->setUsername($request->get('phone'));
-
-        $password = $request->get('phone');
-        $user->setPlainPassword($password);
-        $user->setPassword($this->encoder->encodePassword($user, $password));
-
-        $user->setRole(UserRoleEnum::CLIENT_ROLE);
-
-        $this->em->persist($user);
+        $user = $this->userRepository->find($id);
+        $this->em->remove($user);
         $this->em->flush();
 
         return $user;
     }
+
+    public function updateUser()
+    {
+
+    }
+
 }

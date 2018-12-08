@@ -1,0 +1,37 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h3>Ceny sali "{{ hall.nazwa }}"</h3>
+        <div class="btn-group btn-group-toggle">
+            <a href="{{ path('price_add', {id: hall.id}) }}" class="btn btn-success btn-lg">
+                Dodaj cene
+            </a>
+        </div>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Wartosc</th>
+                <th scope="col">Data od</th>
+                <th scope="col">Data do</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for price in prices %}
+                <tr>
+                    <th scope="row">{{ price.id }}</th>
+                    <td>{{ price.wartosc }}</td>
+                    <td>{{ price.dataOd|date("d/m/Y") }}</td>
+                    <td>{{ price.dataDo|date("d/m/Y") }}</td>
+                    <td>
+                        <a href="{{ path('price_remove', {id: price.id, hallId: hall.id}) }}" class="btn btn-danger btn-xs">
+                            usuń
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

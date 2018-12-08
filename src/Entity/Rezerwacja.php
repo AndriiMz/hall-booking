@@ -44,16 +44,23 @@ class Rezerwacja
     private $sala;
 
     /**
-     * @var Klient
-     * @ORM\ManyToOne(targetEntity="Klient")
+     * Klient
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true)
      */
     private $klient;
 
     /**
-     * @return Klient
+     * @var Wynajencie
+     * @ORM\OneToOne(targetEntity="Wynajencie")
      */
-    public function getKlient(): Klient
+    private $rental;
+
+    /**
+     * @return User
+     */
+    public function getKlient(): User
     {
         return $this->klient;
     }
@@ -61,7 +68,7 @@ class Rezerwacja
     /**
      * @param Klient $klient
      */
-    public function setKlient(Klient $klient): void
+    public function setKlient(User $klient): void
     {
         $this->klient = $klient;
     }

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Cena;
+use App\Entity\Sala;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +18,24 @@ class CenaRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Cena::class);
+    }
+
+    /**
+     * @param \DateTime $date
+     * @param Sala $hall
+     * @return null|Cena
+     */
+    public function findByDate(Sala $hall, \DateTime $date): ?Cena
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.dataOd < :date')
+            ->andWhere('c.dataDo > :date')
+            ->setParameter('date', $date->format('Y-m-d'))
+            ->andWhere('c.sala = :hall')
+            ->setParameter('hall', $hall)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
     }
 
 //    /**

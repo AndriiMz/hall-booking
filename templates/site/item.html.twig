@@ -1,0 +1,51 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+<div class="container hall-container">
+    <div class="hall-price">
+        <h4>{{ price.wartosc }},-/godz.</h4>
+    </div>
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="hall-images">
+                <div class="hall-image-main">
+                    <img src="{{ asset('assets/img/bg.jpg') }}" />
+                </div>
+                <div class="hall-images-preview">
+                    <img src="{{ asset('assets/img/bg.jpg') }}" />
+                    <img src="{{ asset('assets/img/bg.jpg') }}" />
+                    <img src="{{ asset('assets/img/bg.jpg') }}" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <h1>{{ hall.nazwa }}</h1>
+            <p><b>Miasto:</b>{{ hall.miasto }}</p>
+            <p><b>Adresa:</b>{{ hall.adresa }}</p>
+            <p><b>Opcje:</b></p>
+            <ul>
+                {% for option in options %}
+                    <li>{{ option.nazwa }}</li>
+                {% endfor %}
+            </ul>
+            <p><b>Ceny:</b></p>
+            <ul>
+                {% for price in prices %}
+                    <li>
+                        {{ price.dataOd|date("m/d/Y") }} - {{ price.dataDo|date("m/d/Y") }}
+                        : <b>{{ price.wartosc }},-/godz</b>
+                    </li>
+                {% endfor %}
+            </ul>
+            <div class="btn-group-sm">
+                <a href="#" id="add-to-card" data-id="{{ hall.id }}" class="btn btn-success btn-sm">
+                    Dodaj do koszyka
+                </a>
+                <a href="{{ path('book', {id: hall.id}) }}" class="btn btn-primary btn-sm">
+                    Rezerwuj
+                </a>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

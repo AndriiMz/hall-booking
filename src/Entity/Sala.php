@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,8 +38,8 @@ class Sala
     private $powierzchnia;
 
     /**
-     * @var Pracownik
-     * @ORM\ManyToOne(targetEntity="Pracownik")
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true)
      */
     private $pracownik;
@@ -50,9 +50,15 @@ class Sala
      *      joinColumns={@ORM\JoinColumn(name="id_sali", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="id_opcji", referencedColumnName="id")}
      *      )
-     * @var ArrayCollection
+     * @var Collection
      */
     private $opcje;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="hall", fetch="EXTRA_LAZY")
+     * @var Collection $images
+     */
+    private $images;
 
     public function getId(): ?int
     {
@@ -108,18 +114,18 @@ class Sala
     }
 
     /**
-     * @return Pracownik
+     * @return User
      */
-    public function getPracownik(): Pracownik
+    public function getPracownik(): User
     {
         return $this->pracownik;
     }
 
     /**
-     * @param Pracownik $pracownik
+     * @param User $pracownik
      * @return Sala
      */
-    public function setPracownik(Pracownik $pracownik): self
+    public function setPracownik(User $pracownik): self
     {
         $this->pracownik = $pracownik;
 
@@ -127,18 +133,34 @@ class Sala
     }
 
     /**
-     * @return ArrayCollection
+     * @return Collection
      */
-    public function getOpcje(): ArrayCollection
+    public function getOpcje(): Collection
     {
         return $this->opcje;
     }
 
     /**
-     * @param ArrayCollection $opcje
+     * @param $opcje
      */
-    public function setOpcje(ArrayCollection $opcje): void
+    public function setOpcje($opcje): void
     {
         $this->opcje = $opcje;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param Collection $images
+     */
+    public function setImages(Collection $images): void
+    {
+        $this->images = $images;
     }
 }

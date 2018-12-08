@@ -1,0 +1,28 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h3>Dodawanie ceny do sali {{ hall.nazwa }}</h3>
+        <div class="login-form">
+            <form method="post" action="{{ path('price_add', {id: id}) }}">
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="value" class="form-control" placeholder="Wartość" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="date" name="dateFrom" class="form-control" placeholder="Data od" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="date" name="dateTo" class="form-control" placeholder="Data do" required="" />
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

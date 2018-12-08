@@ -1,0 +1,59 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+<div class="container booking-container">
+    <h3>{{ hall.nazwa }}</h3>
+    <div class="hall-price">
+        <h4>{{ price.wartosc }},-/godz.</h4>
+    </div>
+    <ul class="hall-images">
+        <li><img src="{{ asset('assets/img/bg.jpg') }}" /></li>
+        <li><img src="{{ asset('assets/img/bg.jpg') }}" /></li>
+    </ul>
+    <div class="card">
+        <div class="card-body">
+            <form method="post" action="{{ path('book', {id: hall.id}) }}">
+                <h4>Rezerwajca sali</h4>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="firstName" class="form-control" placeholder="Imie" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="lastName" class="form-control" placeholder="Nazwisko" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="phone" class="form-control" placeholder="Telefon" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="date" class="form-control" id="dateFrom" placeholder="Data od" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="date" class="form-control" id="dateTo" placeholder="Data do" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="peopleCount" class="form-control" placeholder="Ilość osób" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <textarea class="form-control" name="comment" placeholder="Komentarz"></textarea>
+                    </div>
+                </div>
+                <div class="form-footer">
+                    <button class="btn btn-primary btn-lg" type="submit">Rezerwuj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

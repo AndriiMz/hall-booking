@@ -1,0 +1,92 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Wyszukiwanie sali</h3>
+                    <form>
+                        <p><b>Data</b></p>
+                        <div class="form-group row">
+                            <label for="dateFrom" class="col-sm-3 col-form-label">od:</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" id="dateFrom" placeholder="od">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="dateTo" class="col-sm-3 col-form-label">do:</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" id="dateTo" placeholder="do">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price"><b>Cena</b></label>
+                            <input type="range" min="50" max="250" value="50" class="form-control-range" id="price">
+                        </div>
+                        <p><b>Opcje</b></p>
+                        {% for option in options %}
+                            <div class="form-check">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="options[]"
+                                       value="{{ option.id }}"
+                                       id="options{{ option.id }}"
+                                />
+                                <label class="form-check-label" for="options{{ option.id }}">
+                                    {{ option.nazwa }}
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <div class="form-footer">
+                            <button class="btn btn-primary btn-lg" type="submit">Wyszukaj</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-9 catalog-container">
+            {% for hall in halls %}
+                {% set price = priceService.getByDate(hall) %}
+                <div class="card">
+                    <div class="card-body hall-card-body">
+                        {% if not price is null %}
+                            <div class="hall-price">
+                                <h4>{{ price.wartosc }},-/godz.</h4>
+                            </div>
+                        {% endif %}
+                        <div class="hall-images">
+                            <div class="hall-image-main">
+                                <img src="{{ asset('assets/img/bg.jpg') }}" />
+                            </div>
+                            <div class="hall-images-preview">
+                                <img src="{{ asset('assets/img/bg.jpg') }}" />
+                                <img src="{{ asset('assets/img/bg.jpg') }}" />
+                                <img src="{{ asset('assets/img/bg.jpg') }}" />
+                            </div>
+                        </div>
+                        <div class="hall-description">
+                            <h3>
+                                <a href="{{ path('item', {id: hall.id}) }}">
+                                    {{ hall.nazwa }}
+                                </a>
+                            </h3>
+                            <p><b>Miasto:</b>{{ hall.miasto }}</p>
+                            <p><b>Adresa:</b>{{ hall.adresa }}</p>
+                            <div class="btn-group-sm">
+                                <a href="{{ path('item', {id: hall.id}) }}" class="btn btn-success btn-sm">
+                                    Zobacz
+                                </a>
+                                <a href="{{ path('book', {id: hall.id}) }}" class="btn btn-primary btn-sm">
+                                    Rezerwuj
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

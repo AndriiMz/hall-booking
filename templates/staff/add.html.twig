@@ -1,0 +1,39 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h3>Dodawanie pracownika</h3>
+        <div class="login-form">
+            <form method="post" action="{{ path('staff_add') }}">
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="firstName" class="form-control" placeholder="Imie" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="lastName" class="form-control" placeholder="Nazwisko" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="email" name="email" class="form-control" placeholder="Poczta" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="text" name="username" class="form-control" placeholder="Login" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12 mb-3">
+                        <input type="password" name="password" class="form-control" placeholder="Hasło" required="" />
+                    </div>
+                </div>
+
+                <div class="form-footer">
+                    <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

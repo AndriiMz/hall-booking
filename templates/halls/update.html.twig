@@ -1,0 +1,53 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h3>Edycja sali "{{ hall.nazwa }}"</h3>
+        <div class="login-form">
+            <form method="post" action="{{ path('hall_update', {id: hall.id}) }}">
+                <div class="form-row">
+                    <label class="col-md-3" for="name">Nazwa</label>
+                    <div class="col-md-9 mb-3">
+                        <input id="name" type="text" name="name" value="{{ hall.nazwa }}" class="form-control" placeholder="Nazwa" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-md-3" for="city">Miasto</label>
+                    <div class="col-md-9 mb-3">
+                        <input id="city" type="text" name="city" value="{{ hall.miasto }}" class="form-control" placeholder="Miasto" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-md-3" for="address">Adresa</label>
+                    <div class="col-md-9 mb-3">
+                        <input id="address" type="text" name="address" value="{{ hall.adresa }}" class="form-control" placeholder="Adresa" required="" />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label class="col-md-3" for="area">Pole powierzchni</label>
+                    <div class="col-md-9 mb-3">
+                        <input id="area" type="text" name="area" value="{{ hall.powierzchnia }}" class="form-control" placeholder="Pole powierzchni" required="" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label class="col-md-3" for="area">Opcje</label>
+                    <div class="col-md-9 mb-3">
+                        {% for option in options %}
+                            <div class="custom-control custom-checkbox">
+                                <input value="{{ option.id }}" type="checkbox" name="options[]" {% if option.id in checkedOption %}checked="checked"{% endif %} class="custom-control-input" id="option{{ option.id }}">
+                                <label class="custom-control-label" for="option{{ option.id }}">{{ option.nazwa }}</label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-footer">
+                    <button class="btn btn-primary btn-lg" type="submit">Zapisz zmiany</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

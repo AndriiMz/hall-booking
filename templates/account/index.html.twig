@@ -7,6 +7,17 @@
                 Pracownicy
             </a>
         {% endif %}
+        {% if app.user.role == 'ADMIN_ROLE' or app.user.role == 'STAFF_ROLE' %}
+            <a href="{{ path('halls_list') }}" class="btn btn-success btn-lg">
+                Sale
+            </a>
+            <a href="{{ path('options_list') }}" class="btn btn-success btn-lg">
+                Opcje
+            </a>
+            <a href="{{ path('bookings_list') }}" class="btn btn-success btn-lg">
+                Rezerwacje
+            </a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

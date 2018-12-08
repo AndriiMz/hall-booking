@@ -77,3 +77,81 @@ footer {
     text-align: center;
 }
 /*** -----  end security view ----- ***/
+
+/*** ----- catalog view ----- ***/
+.catalog-container .card{
+    margin-bottom: 10px;
+}
+
+.hall-card-body {
+    display: flex;
+    position: relative;
+}
+
+.hall-card-body .hall-images {
+    width: 30%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.hall-images .hall-image-main {
+    width: 75%;
+}
+
+.hall-images .hall-image-main img {
+    width: 100%;
+}
+
+.hall-images .hall-images-preview {
+    width: 23%;
+}
+
+.hall-images .hall-images-preview img {
+    width: 100%;
+}
+
+
+.hall-price {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.hall-price h4 {
+    color: red;
+}
+/*** ----- end catalog view ----- ***/
+
+
+/*** ----- item view ----- ***/
+.hall-container {
+    position: relative;
+}
+
+.hall-container .hall-images {
+    display: flex;
+    justify-content: space-between;
+}
+/*** ----- end item view ----- ***/
+
+/*** ----- booking container ----- ***/
+.booking-container {
+    position: relative;
+}
+
+.booking-container ul.hall-images {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.booking-container ul.hall-images li {
+    max-width: 150px;
+    margin-right: 5px;
+}
+
+.booking-container ul.hall-images li img {
+    max-width: 150px;
+}
+/*** ----- end booking container ----- ***/
