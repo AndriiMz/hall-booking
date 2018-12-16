@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CenaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\PriceRepository")
  */
-class Cena
+class Price
 {
     /**
      * @ORM\Id()
@@ -19,17 +19,17 @@ class Cena
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dataDo;
+    private $dateFrom;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dataOd;
+    private $dataTo;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $wartosc;
+    private $value;
 
     /**
      * @var Sala

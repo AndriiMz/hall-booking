@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OpcjaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\OptionRepository")
  */
-class Opcja
+class Option
 {
     /**
      * @ORM\Id()
@@ -19,38 +19,38 @@ class Opcja
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nazwa;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $opis;
+    private $description;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getNazwa(): ?string
+    public function getName(): ?string
     {
-        return $this->nazwa;
+        return $this->name;
     }
 
-    public function setNazwa(string $nazwa): self
+    public function setName(string $name): self
     {
-        $this->nazwa = $nazwa;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getOpis(): ?string
+    public function getDescription(): ?string
     {
-        return $this->opis;
+        return $this->description;
     }
 
-    public function setOpis(?string $opis): self
+    public function setDescription(?string $description): self
     {
-        $this->opis = $opis;
+        $this->description = $description;
 
         return $this;
     }

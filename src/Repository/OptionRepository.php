@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Opcja;
+use App\Entity\Option;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Opcja|null find($id, $lockMode = null, $lockVersion = null)
- * @method Opcja|null findOneBy(array $criteria, array $orderBy = null)
- * @method Opcja[]    findAll()
- * @method Opcja[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Option|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Option|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Option[]    findAll()
+ * @method Option[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class OpcjaRepository extends ServiceEntityRepository
+class OptionRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Opcja::class);
+        parent::__construct($registry, Option::class);
     }
 
 //    /**

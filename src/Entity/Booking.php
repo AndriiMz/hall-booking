@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RezerwacjaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\BookingRepository")
  */
-class Rezerwacja
+class Booking
 {
     /**
      * @ORM\Id()
@@ -19,22 +19,22 @@ class Rezerwacja
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $dataOd;
+    private $dateFrom;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $dataDo;
+    private $dateTo;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $iloscOs;
+    private $peoplesCount;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $komentarz;
+    private $comment;
 
     /**
      * @var Sala

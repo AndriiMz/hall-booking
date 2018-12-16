@@ -5,9 +5,9 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\WynajencieRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RentRepository")
  */
-class Wynajencie
+class Rent
 {
     /**
      * @ORM\Id()
@@ -19,7 +19,7 @@ class Wynajencie
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $suma;
+    private $amount;
 
     /**
      * @var Pracownik

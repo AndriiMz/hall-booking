@@ -3,29 +3,29 @@
 namespace App\Repository;
 
 use App\Entity\Cena;
-use App\Entity\Sala;
+use App\Entity\Hall;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Cena|null find($id, $lockMode = null, $lockVersion = null)
- * @method Cena|null findOneBy(array $criteria, array $orderBy = null)
- * @method Cena[]    findAll()
- * @method Cena[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Price|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Price|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Price[]    findAll()
+ * @method Price[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CenaRepository extends ServiceEntityRepository
+class PriceRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Cena::class);
+        parent::__construct($registry, Price::class);
     }
 
     /**
      * @param \DateTime $date
-     * @param Sala $hall
-     * @return null|Cena
+     * @param Hall $hall
+     * @return null|Price
      */
-    public function findByDate(Sala $hall, \DateTime $date): ?Cena
+    public function findByDate(Hall $hall, \DateTime $date): ?Price
     {
         return $this->createQueryBuilder('c')
             ->where('c.dataOd < :date')

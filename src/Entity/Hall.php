@@ -6,9 +6,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SalaRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\HallRepository")
  */
-class Sala
+class Hall
 {
     /**
      * @ORM\Id()
@@ -20,22 +20,22 @@ class Sala
     /**
      * @ORM\Column(type="string")
      */
-    private $nazwa;
+    private $name;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $miasto;
+    private $city;
 
     /**
      * @ORM\Column(type="string")
      */
-    private $adresa;
+    private $address;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $powierzchnia;
+    private $area;
 
     /**
      * @var User

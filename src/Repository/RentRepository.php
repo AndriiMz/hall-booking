@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Wynajencie;
+use App\Entity\Rent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Wynajencie|null find($id, $lockMode = null, $lockVersion = null)
- * @method Wynajencie|null findOneBy(array $criteria, array $orderBy = null)
- * @method Wynajencie[]    findAll()
- * @method Wynajencie[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Rent|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Rent|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Rent[]    findAll()
+ * @method Rent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class WynajencieRepository extends ServiceEntityRepository
+class RentRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Wynajencie::class);
+        parent::__construct($registry, Rent::class);
     }
 
 //    /**
