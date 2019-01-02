@@ -2,16 +2,15 @@
 
 namespace App\Service;
 
-use App\Entity\Opcja;
-use App\Entity\Sala;
-use App\Repository\OpcjaRepository;
+use App\Entity\Option;
+use App\Repository\OptionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class OptionService
 {
     /**
-     * @var OpcjaRepository
+     * @var OptionRepository
      */
     private $repo;
     /**
@@ -19,7 +18,7 @@ class OptionService
      */
     private $em;
 
-    public function __construct(OpcjaRepository $repo, EntityManagerInterface $em)
+    public function __construct(OptionRepository $repo, EntityManagerInterface $em)
     {
         $this->repo = $repo;
         $this->em = $em;
@@ -35,13 +34,13 @@ class OptionService
 
     /**
      * @param Request $request
-     * @return Opcja
+     * @return Option
      */
     public function addOption(Request $request)
     {
-        $option = new Opcja();
-        $option->setNazwa($request->get('name'));
-        $option->setOpis($request->get('description'));
+        $option = new Option();
+        $option->setName($request->get('name'));
+        $option->setDescription($request->get('description'));
 
         $this->em->persist($option);
         $this->em->flush();
@@ -51,7 +50,7 @@ class OptionService
 
     /**
      * @param int $id
-     * @return Opcja|null
+     * @return Option|null
      */
     public function removeOption(int $id)
     {

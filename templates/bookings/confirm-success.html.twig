@@ -1,0 +1,14 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h2>Rezerwcja zostala potwierdzona!</h2>
+        <div class="btn-group">
+            <a href="{{ path('bookings_list') }}" class="btn btn-success">
+                Lista rezerwacji
+            </a>
+            <a href="{{ path('rents_list') }}" class="btn btn-primary">
+                Lista wynajęć
+            </a>
+        </div>
+    </div>
+{% endblock %}

@@ -24,7 +24,7 @@ class Price
     /**
      * @ORM\Column(type="datetime")
      */
-    private $dataTo;
+    private $dateTo;
 
     /**
      * @ORM\Column(type="integer")
@@ -32,66 +32,78 @@ class Price
     private $value;
 
     /**
-     * @var Sala
-     * @ORM\ManyToOne(targetEntity="Sala")
+     * @var Hall
+     * @ORM\ManyToOne(targetEntity="Hall")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $sala;
+    private $hall;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getDataDo(): ?\DateTimeInterface
+    /**
+     * @return mixed
+     */
+    public function getDateFrom()
     {
-        return $this->dataDo;
-    }
-
-    public function setDataDo(\DateTimeInterface $dataDo): self
-    {
-        $this->dataDo = $dataDo;
-
-        return $this;
-    }
-
-    public function getDataOd(): ?\DateTimeInterface
-    {
-        return $this->dataOd;
-    }
-
-    public function setDataOd(\DateTimeInterface $dataOd): self
-    {
-        $this->dataOd = $dataOd;
-
-        return $this;
-    }
-
-    public function getWartosc(): ?int
-    {
-        return $this->wartosc;
-    }
-
-    public function setWartosc(int $wartosc): self
-    {
-        $this->wartosc = $wartosc;
-
-        return $this;
+        return $this->dateFrom;
     }
 
     /**
-     * @return Sala
+     * @param mixed $dateFrom
      */
-    public function getSala(): Sala
+    public function setDateFrom($dateFrom): void
     {
-        return $this->sala;
+        $this->dateFrom = $dateFrom;
     }
 
     /**
-     * @param Sala $sala
+     * @return mixed
      */
-    public function setSala(Sala $sala): void
+    public function getDateTo()
     {
-        $this->sala = $sala;
+        return $this->dateTo;
+    }
+
+    /**
+     * @param mixed $dateTo
+     */
+    public function setDateTo($dateTo): void
+    {
+        $this->dateTo = $dateTo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function setValue($value): void
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * @return Hall
+     */
+    public function getHall(): Hall
+    {
+        return $this->hall;
+    }
+
+    /**
+     * @param Hall $hall
+     */
+    public function setHall(Hall $hall): void
+    {
+        $this->hall = $hall;
     }
 }

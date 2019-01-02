@@ -3,7 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Image;
-use App\Entity\Sala;
+use App\Entity\Hall;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -33,16 +33,16 @@ class ImagesService
 
     /**
      * @param Request $request
-     * @param Sala $hall
+     * @param Hall $hall
      * @param $filePath
      * @return Image
      */
-    public function addImage(Request $request, Sala $hall, $filePath): Image
+    public function addImage(Request $request, Hall $hall, $filePath): Image
     {
         $image = new Image();
         /** @var UploadedFile $file */
         $file = $request->files->get('image');
-        $fileName = $hall->getNazwa() . '_' . \uniqid() . '.jpg';
+        $fileName = $hall->getNazwa() . '_' . \uniqid('', true) . '.jpg';
         $file->move($filePath, $fileName);
         $image->setFilePath($fileName);
         $image->setHall($hall);

@@ -2,9 +2,11 @@
 {% block body %}
 <div class="container booking-container">
     <h3>{{ hall.nazwa }}</h3>
+    {% if price is not null %}
     <div class="hall-price">
         <h4>{{ price.wartosc }},-/godz.</h4>
     </div>
+    {% endif %}
     <ul class="hall-images">
         <li><img src="{{ asset('assets/img/bg.jpg') }}" /></li>
         <li><img src="{{ asset('assets/img/bg.jpg') }}" /></li>

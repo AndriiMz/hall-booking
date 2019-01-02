@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Cena;
+use App\Entity\Price;
 use App\Entity\Hall;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;

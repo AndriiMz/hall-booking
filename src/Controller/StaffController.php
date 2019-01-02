@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Enum\RequestTypeEnum;
-use App\Service\StaffService;
+use App\Service\EmployeeService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,11 +12,11 @@ use Symfony\Component\Routing\Annotation\Route;
 class StaffController extends Controller
 {
     /**
-     * @var StaffService
+     * @var EmployeeService
      */
     private $staffService;
 
-    public function __construct(StaffService $staffService)
+    public function __construct(EmployeeService $staffService)
     {
         $this->staffService = $staffService;
     }

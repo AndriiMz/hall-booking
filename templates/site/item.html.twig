@@ -1,9 +1,11 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
 <div class="container hall-container">
-    <div class="hall-price">
-        <h4>{{ price.wartosc }},-/godz.</h4>
-    </div>
+    {% if price is not null %}
+        <div class="hall-price">
+            <h4>{{ price.wartosc }},-/godz.</h4>
+        </div>
+    {% endif %}
     <div class="row">
         <div class="col-sm-5">
             <div class="hall-images">

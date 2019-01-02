@@ -2,9 +2,9 @@
 
 namespace App\Service;
 
-use App\Entity\Sala;
-use App\Repository\CenaRepository;
-use App\Entity\Cena;
+use App\Entity\Hall;
+use App\Repository\PriceRepository;
+use App\Entity\Price;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -12,10 +12,10 @@ class PriceService
 {
     /**
      * HallService constructor.
-     * @param CenaRepository $repo
+     * @param PriceRepository $repo
      * @param EntityManagerInterface $em
      */
-    public function __construct(CenaRepository $repo, EntityManagerInterface $em)
+    public function __construct(PriceRepository $repo, EntityManagerInterface $em)
     {
         $this->repo = $repo;
         $this->em = $em;
@@ -23,10 +23,10 @@ class PriceService
 
     /**
      * @param \DateTime|null $date
-     * @param Sala $hall
-     * @return Cena|null
+     * @param Hall $hall
+     * @return Price|null
      */
-    public function getByDate($hall, \DateTime $date = null): ?Cena
+    public function getByDate($hall, \DateTime $date = null): ?Price
     {
         if (null === $date) {
             $date = new \DateTime();
@@ -37,37 +37,37 @@ class PriceService
 
     /**
      * @param $hallId
-     * @return Cena[]
+     * @return Price[]
      */
     public function getList($hallId): array
     {
-        return $this->repo->findBy(['sala' => $hallId]);
+        return $this->repo->findBy(['hall' => $hallId]);
     }
 
     /**
-     * @param Sala $hall
-     * @return array|Cena[]
+     * @param Hall $hall
+     * @return array|Price[]
      */
-    public function getByHall(Sala $hall): array
+    public function getByHall(Hall $hall): array
     {
-        return $this->repo->findBy(['sala' => $hall]);
+        return $this->repo->findBy(['hall' => $hall]);
     }
 
     /**
      * @param Request $request
-     * @param Sala $hall
-     * @return Cena
+     * @param Hall $hall
+     * @return Price
      */
-    public function addPrice(Request $request, Sala $hall): Cena
+    public function addPrice(Request $request, Hall $hall): Price
     {
-        $price = new Cena();
+        $price = new Price();
 
-        $price->setSala($hall);
-        $price->setWartosc($request->get('value'));
-        $price->setDataDo(
+        $price->setHall($hall);
+        $price->setValue($request->get('value'));
+        $price->setDateTo(
             new \DateTime($request->get('dateTo'))
         );
-        $price->setDataOd(
+        $price->setDateFrom(
             new \DateTime($request->get('dateFrom'))
         );
 
@@ -79,9 +79,9 @@ class PriceService
 
     /**
      * @param $id
-     * @return Cena|null
+     * @return Price|null
      */
-    public function removePrice($id): ?Cena
+    public function removePrice($id): ?Price
     {
         $price = $this->repo->find($id);
 

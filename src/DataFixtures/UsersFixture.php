@@ -1,6 +1,7 @@
 <?php
 namespace App\DataFixtures;
 
+use App\Entity\Administrator;
 use App\Entity\User;
 use App\Enum\UserRoleEnum;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -20,17 +21,18 @@ class UsersFixture extends Fixture implements FixtureInterface
 
     public function load(ObjectManager $manager)
     {
-        $userClient = new User();
-        $userClient->setUsername('admin');
+        $administrator = new Administrator();
+        $administrator->setUsername('admin');
         $password = 1234;
-        $userClient->setPlainPassword($password);
-        $userClient->setPassword($this->encoder->encodePassword($userClient, $password));
-        $userClient->setEmail('test@admin.lcl');
-        $userClient->setRole(UserRoleEnum::ADMIN_ROLE);
-        $userClient->setFirstName('Admin');
-        $userClient->setLastName('Adminowski');
+        $administrator->setPlainPassword($password);
+        $administrator->setPassword($this->encoder->encodePassword($administrator, $password));
+        $administrator->setEmail('test@admin.lcl');
+        $administrator->setFirstName('Admin');
+        $administrator->setCity('Wroc');
+        $administrator->setAddress('ul Prusa');
+        $administrator->setPhone('733913212');
 
-        $manager->persist($userClient);
+        $manager->persist($administrator);
         $manager->flush();
     }
 }

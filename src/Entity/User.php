@@ -2,15 +2,17 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="type", type="string")
+ * @ORM\DiscriminatorMap({"client" = "Client", "employee" = "Employee", "administrator" = "Administrator"})
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User implements UserInterface
+abstract class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -30,20 +32,15 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=40)
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=40)
-     */
-    private $lastName;
-
-    /**
      * @Assert\NotBlank()
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=40)
+     */
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
@@ -52,9 +49,21 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=60)
-     * @var string $role
+     * @var string
      */
-    protected $role;
+    private $city;
+
+    /**
+     * @ORM\Column(type="string", length=60)
+     * @var string
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=60)
+     * @var string
+     */
+    private $phone;
 
     /**
      * @return mixed
@@ -62,6 +71,54 @@ class User implements UserInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): string
+    {
+        return $this->city;
+    }
+
+    /**
+     * @param string $city
+     */
+    public function setCity(string $city): void
+    {
+        $this->city = $city;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAddress(): string
+    {
+        return $this->address;
+    }
+
+    /**
+     * @param string $address
+     */
+    public function setAddress(string $address): void
+    {
+        $this->address = $address;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhone(): string
+    {
+        return $this->phone;
+    }
+
+    /**
+     * @param string $phone
+     */
+    public function setPhone(string $phone): void
+    {
+        $this->phone = $phone;
     }
 
     public function getUsername()
@@ -143,38 +200,6 @@ class User implements UserInterface
         $this->firstName = $firstName;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getLastName()
-    {
-        return $this->lastName;
-    }
-
-    /**
-     * @param mixed $lastName
-     */
-    public function setLastName($lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getRole(): string
-    {
-        return $this->role;
-    }
-
-    /**
-     * @param string $role
-     */
-    public function setRole(string $role): void
-    {
-        $this->role = $role;
-    }
-
     public function eraseCredentials()
     {}
 
@@ -192,8 +217,13 @@ class User implements UserInterface
      *
      * @return (Role|string)[] The user roles
      */
-    public function getRoles()
+    public function getRoles(): array
     {
-        return [$this->role];
+        return [];
     }
+
+    /**
+     * @return string
+     */
+    abstract public function getRole(): string;
 }

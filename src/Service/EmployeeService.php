@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Employee;
 use App\Entity\User;
 use App\Enum\UserRoleEnum;
 use App\Repository\UserRepository;
@@ -9,7 +10,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class StaffService
+class EmployeeService
 {
     /**
      * @var UserRepository
@@ -47,7 +48,7 @@ class StaffService
      */
     public function getList(): array
     {
-        return $this->userRepository->findBy(['role' => UserRoleEnum::STAFF_ROLE]);
+        return $this->userRepository->findBy(['type' => Employee::class]);
     }
 
     /**
@@ -56,7 +57,7 @@ class StaffService
      */
     public function addUser(Request $request): User
     {
-        $user = new User();
+        $user = new Employee();
         $user->setFirstName($request->get('firstName'));
         $user->setLastName($request->get('lastName'));
         $user->setEmail($request->get('email'));
@@ -66,7 +67,6 @@ class StaffService
         $user->setPlainPassword($password);
         $user->setPassword($this->encoder->encodePassword($user, $password));
 
-        $user->setRole(UserRoleEnum::STAFF_ROLE);
 
         $this->em->persist($user);
         $this->em->flush();

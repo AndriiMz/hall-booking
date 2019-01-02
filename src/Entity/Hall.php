@@ -20,7 +20,7 @@ class Hall
     /**
      * @ORM\Column(type="string")
      */
-    private $name;
+    private $nameH;
 
     /**
      * @ORM\Column(type="string")
@@ -42,17 +42,17 @@ class Hall
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $pracownik;
+    private $employee;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Opcja")
-     * @ORM\JoinTable(name="opcja_sali",
-     *      joinColumns={@ORM\JoinColumn(name="id_sali", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="id_opcji", referencedColumnName="id")}
+     * @ORM\ManyToMany(targetEntity="Option")
+     * @ORM\JoinTable(name="hall_option",
+     *      joinColumns={@ORM\JoinColumn(name="hall_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="option_id", referencedColumnName="id")}
      *      )
      * @var Collection
      */
-    private $opcje;
+    private $options;
 
     /**
      * @ORM\OneToMany(targetEntity="Image", mappedBy="hall", fetch="EXTRA_LAZY")
@@ -65,87 +65,100 @@ class Hall
         return $this->id;
     }
 
-    public function getNazwa(): ?string
+    /**
+     * @return mixed
+     */
+    public function getName()
     {
-        return $this->nazwa;
+        return $this->nameH;
     }
 
-    public function setNazwa(string $nazwa): self
+    /**
+     * @param mixed $name
+     */
+    public function setName($name): void
     {
-        $this->nazwa = $nazwa;
-
-        return $this;
+        $this->nameH = $name;
     }
 
-    public function getMiasto(): ?string
+    /**
+     * @return mixed
+     */
+    public function getCity()
     {
-        return $this->miasto;
+        return $this->city;
     }
 
-    public function setMiasto(string $miasto): self
+    /**
+     * @param mixed $city
+     */
+    public function setCity($city): void
     {
-        $this->miasto = $miasto;
-
-        return $this;
+        $this->city = $city;
     }
 
-    public function getAdresa(): ?string
+    /**
+     * @return mixed
+     */
+    public function getAddress()
     {
-        return $this->adresa;
+        return $this->address;
     }
 
-    public function setAdresa(string $adresa): self
+    /**
+     * @param mixed $address
+     */
+    public function setAddress($address): void
     {
-        $this->adresa = $adresa;
-
-        return $this;
+        $this->address = $address;
     }
 
-    public function getPowierzchnia(): ?int
+    /**
+     * @return mixed
+     */
+    public function getArea()
     {
-        return $this->powierzchnia;
+        return $this->area;
     }
 
-    public function setPowierzchnia(?int $powierzchnia): self
+    /**
+     * @param mixed $area
+     */
+    public function setArea($area): void
     {
-        $this->powierzchnia = $powierzchnia;
-
-        return $this;
+        $this->area = $area;
     }
 
     /**
      * @return User
      */
-    public function getPracownik(): User
+    public function getEmployee(): User
     {
-        return $this->pracownik;
+        return $this->employee;
     }
 
     /**
-     * @param User $pracownik
-     * @return Sala
+     * @param User $employee
      */
-    public function setPracownik(User $pracownik): self
+    public function setEmployee(User $employee): void
     {
-        $this->pracownik = $pracownik;
-
-        return $this;
+        $this->employee = $employee;
     }
 
     /**
      * @return Collection
      */
-    public function getOpcje(): Collection
+    public function getOptions(): Collection
     {
-        return $this->opcje;
+        return $this->options;
     }
 
     /**
-     * @param $opcje
+     * @param Collection|array $options
      */
-    public function setOpcje($opcje): void
+    public function setOptions($options): void
     {
-        $this->opcje = $opcje;
+        $this->options = $options;
     }
 
     /**

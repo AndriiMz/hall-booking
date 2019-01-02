@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Client;
 use App\Entity\User;
 use App\Enum\UserRoleEnum;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,17 +33,17 @@ class RegistrationService
      */
     public function fromRequest(Request $request): User
     {
-        $user = new User();
+        $user = new Client();
         $user->setFirstName($request->get('firstName'));
-        $user->setLastName($request->get('lastName'));
         $user->setEmail($request->get('email'));
         $user->setUsername($request->get('username'));
 
         $password = $request->get('password');
         $user->setPlainPassword($password);
         $user->setPassword($this->encoder->encodePassword($user, $password));
-
-        $user->setRole(UserRoleEnum::CLIENT_ROLE);
+        $user->setCity('Wroc');
+        $user->setAddress('ul Prusa 9');
+        $user->setPhone('733913212');
 
         $this->em->persist($user);
         $this->em->flush();
@@ -56,9 +57,9 @@ class RegistrationService
      */
     public function fromBookingRequest(Request $request): User
     {
-        $user = new User();
+        $user = new Client();
         $user->setFirstName($request->get('firstName'));
-        $user->setLastName($request->get('lastName'));
+       // $user->setLastName($request->get('lastName'));
         $user->setEmail($request->get('phone') . '@in.com');
         $user->setUsername($request->get('phone'));
 
@@ -66,7 +67,6 @@ class RegistrationService
         $user->setPlainPassword($password);
         $user->setPassword($this->encoder->encodePassword($user, $password));
 
-        $user->setRole(UserRoleEnum::CLIENT_ROLE);
 
         $this->em->persist($user);
         $this->em->flush();

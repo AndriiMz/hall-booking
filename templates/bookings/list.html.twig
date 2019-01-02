@@ -24,7 +24,9 @@
                     <td>{{ booking.komentarz }}</td>
                     <td>{{ booking.klient.firstName }} {{ booking.klient.lastName }}</td>
                     <td>
-
+                        <a href="{{ path('booking_confirm', {id: booking.id}) }}" class="btn btn-success btn-xs">
+                            Potwierdź
+                        </a>
                     </td>
                 </tr>
             {% endfor %}

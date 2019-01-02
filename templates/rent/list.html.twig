@@ -1,0 +1,30 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h3>Wynajęcia</h3>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Sala</th>
+                <th scope="col">Data</th>
+                <th scope="col">Ilość osób</th>
+                <th scope="col">Suma</th>
+                <th scope="col">Klient</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rent in rents %}
+                <tr>
+                    <th scope="row">{{ rent.id }}</th>
+                    <td>{{ rent.rezewacja.sala.nazwa }}</td>
+                    <td>{{ rent.rezewacja.dataOd|date("m/d/Y") }} - {{ rent.rezewacja.dataDo|date("m/d/Y") }}</td>
+                    <td>{{ rent.rezewacja.iloscOs }}</td>
+                    <td>{{ rent.suma }}</td>
+                    <td>{{ rent.rezewacja.klient.firstName }} {{ rent.rezewacja.klient.lastName }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

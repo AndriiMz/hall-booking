@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Opcja;
+use App\Entity\Option;
 use App\Enum\RequestTypeEnum;
 use App\Service\HallService;
 use App\Service\OptionService;
@@ -84,7 +85,7 @@ class HallController extends Controller
         }
 
         $hall = $this->service->getHall($id);
-        $checkedOption = $hall->getOpcje()->map(function(Opcja $option) {
+        $checkedOption = $hall->getOptions()->map(function(Option $option) {
             return $option->getId();
         });
 

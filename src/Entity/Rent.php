@@ -22,65 +22,72 @@ class Rent
     private $amount;
 
     /**
-     * @var Pracownik
-     * @ORM\OneToOne(targetEntity="Rezerwacja")
+     * @var Booking
+     * @ORM\OneToOne(targetEntity="Booking")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $rezewacja;
+    private $booking;
 
     /**
-     * @var Pracownik
-     * @ORM\ManyToOne(targetEntity="Pracownik")
+     * @var User
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $zatwierdzonaPrzez;
+    private $approvedBy;
 
-    public function getId(): ?int
+    /**
+     * @return mixed
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getSuma(): ?int
+    /**
+     * @return mixed
+     */
+    public function getAmount()
     {
-        return $this->suma;
-    }
-
-    public function setSuma(?int $suma): self
-    {
-        $this->suma = $suma;
-
-        return $this;
+        return $this->amount;
     }
 
     /**
-     * @return Pracownik
+     * @param mixed $amount
      */
-    public function getRezewacja(): Pracownik
+    public function setAmount($amount): void
     {
-        return $this->rezewacja;
+        $this->amount = $amount;
     }
 
     /**
-     * @param Pracownik $rezewacja
+     * @return Booking
      */
-    public function setRezewacja(Pracownik $rezewacja): void
+    public function getBooking(): Booking
     {
-        $this->rezewacja = $rezewacja;
+        return $this->booking;
     }
 
     /**
-     * @return Pracownik
+     * @param Booking $booking
      */
-    public function getZatwierdzonaPrzez(): Pracownik
+    public function setBooking(Booking $booking): void
     {
-        return $this->zatwierdzonaPrzez;
+        $this->booking = $booking;
     }
 
     /**
-     * @param Pracownik $zatwierdzonaPrzez
+     * @return User
      */
-    public function setZatwierdzonaPrzez(Pracownik $zatwierdzonaPrzez): void
+    public function getApprovedBy(): User
     {
-        $this->zatwierdzonaPrzez = $zatwierdzonaPrzez;
+        return $this->approvedBy;
+    }
+
+    /**
+     * @param User $approvedBy
+     */
+    public function setApprovedBy(User $approvedBy): void
+    {
+        $this->approvedBy = $approvedBy;
     }
 }

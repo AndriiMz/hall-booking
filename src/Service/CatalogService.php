@@ -2,23 +2,23 @@
 
 namespace App\Service;
 
-use App\Entity\Sala;
-use App\Repository\SalaRepository;
+use App\Entity\Hall;
+use App\Repository\HallRepository;
 
 class CatalogService
 {
     /**
-     * @var SalaRepository
+     * @var HallRepository
      */
     private $repo;
 
-    public function __construct(SalaRepository $repo)
+    public function __construct(HallRepository $repo)
     {
         $this->repo = $repo;
     }
 
     /**
-     * @return Sala[]
+     * @return Hall[]
      */
     public function getAll(): array
     {
@@ -27,9 +27,9 @@ class CatalogService
 
     /**
      * @param $id
-     * @return Sala
+     * @return Hall
      */
-    public function getItem($id): Sala
+    public function getItem($id): Hall
     {
         return $this->repo->find($id);
     }

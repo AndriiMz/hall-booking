@@ -87,7 +87,7 @@ class SiteController extends Controller
     public function itemAction(int $id): Response
     {
         $item = $this->catalogService->getItem($id);
-        $options = $item->getOpcje();
+        $options = $item->getOptions();
         $prices = $this->priceService->getByHall($item);
         $price = $this->priceService->getByDate($item);
 

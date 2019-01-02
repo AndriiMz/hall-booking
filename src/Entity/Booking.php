@@ -37,108 +37,128 @@ class Booking
     private $comment;
 
     /**
-     * @var Sala
-     * @ORM\ManyToOne(targetEntity="Sala")
+     * @var Hall
+     * @ORM\ManyToOne(targetEntity="Hall")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $sala;
+    private $hall;
 
     /**
-     * Klient
-     * @var User
+     * @var Client
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $klient;
+    private $client;
 
     /**
-     * @var Wynajencie
-     * @ORM\OneToOne(targetEntity="Wynajencie")
+     * @return mixed
      */
-    private $rental;
-
-    /**
-     * @return User
-     */
-    public function getKlient(): User
-    {
-        return $this->klient;
-    }
-
-    /**
-     * @param Klient $klient
-     */
-    public function setKlient(User $klient): void
-    {
-        $this->klient = $klient;
-    }
-
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getDataOd(): ?\DateTimeInterface
+    /**
+     * @param mixed $id
+     */
+    public function setId($id): void
     {
-        return $this->dataOd;
-    }
-
-    public function setDataOd(?\DateTimeInterface $dataOd): self
-    {
-        $this->dataOd = $dataOd;
-
-        return $this;
-    }
-
-    public function getDataDo(): ?\DateTimeInterface
-    {
-        return $this->dataDo;
-    }
-
-    public function setDataDo(?\DateTimeInterface $dataDo): self
-    {
-        $this->dataDo = $dataDo;
-
-        return $this;
-    }
-
-    public function getIloscOs(): ?int
-    {
-        return $this->iloscOs;
-    }
-
-    public function setIloscOs(?int $iloscOs): self
-    {
-        $this->iloscOs = $iloscOs;
-
-        return $this;
-    }
-
-    public function getKomentarz(): ?string
-    {
-        return $this->komentarz;
-    }
-
-    public function setKomentarz(?string $komentarz): self
-    {
-        $this->komentarz = $komentarz;
-
-        return $this;
+        $this->id = $id;
     }
 
     /**
-     * @return Sala
+     * @return \DateTime
      */
-    public function getSala(): Sala
+    public function getDateFrom(): \DateTime
     {
-        return $this->sala;
+        return $this->dateFrom;
     }
 
     /**
-     * @param Sala $sala
+     * @param mixed $dateFrom
      */
-    public function setSala(Sala $sala): void
+    public function setDateFrom($dateFrom): void
     {
-        $this->sala = $sala;
+        $this->dateFrom = $dateFrom;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateTo(): \DateTime
+    {
+        return $this->dateTo;
+    }
+
+    /**
+     * @param mixed $dateTo
+     */
+    public function setDateTo($dateTo): void
+    {
+        $this->dateTo = $dateTo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPeoplesCount()
+    {
+        return $this->peoplesCount;
+    }
+
+    /**
+     * @param mixed $peoplesCount
+     */
+    public function setPeoplesCount($peoplesCount): void
+    {
+        $this->peoplesCount = $peoplesCount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param mixed $comment
+     */
+    public function setComment($comment): void
+    {
+        $this->comment = $comment;
+    }
+
+    /**
+     * @return Hall
+     */
+    public function getHall(): Hall
+    {
+        return $this->hall;
+    }
+
+    /**
+     * @param Hall $hall
+     */
+    public function setHall(Hall $hall): void
+    {
+        $this->hall = $hall;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getClient(): Client
+    {
+        return $this->client;
+    }
+
+    /**
+     * @param User $client
+     */
+    public function setClient(User $client): void
+    {
+        $this->client = $client;
     }
 }

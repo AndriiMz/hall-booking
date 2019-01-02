@@ -23,24 +23,24 @@ class Image
     private $filePath;
 
     /**
-     * @var Sala
-     * @ORM\ManyToOne(targetEntity="Sala")
+     * @var Hall
+     * @ORM\ManyToOne(targetEntity="Hall")
      * @ORM\JoinColumn()
      */
     private $hall;
 
     /**
-     * @return Sala
+     * @return Hall
      */
-    public function getHall(): Sala
+    public function getHall(): Hall
     {
         return $this->hall;
     }
 
     /**
-     * @param Sala $hall
+     * @param Hall $hall
      */
-    public function setHall(Sala $hall): void
+    public function setHall(Hall $hall): void
     {
         $this->hall = $hall;
     }
@@ -76,7 +76,4 @@ class Image
     {
         $this->filePath = $filePath;
     }
-
-
-
 }

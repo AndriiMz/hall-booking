@@ -2,17 +2,17 @@
 
 namespace App\Service;
 
-use App\Entity\Sala;
+use App\Entity\Hall;
 use App\Entity\User;
-use App\Repository\OpcjaRepository;
-use App\Repository\SalaRepository;
+use App\Repository\OptionRepository;
+use App\Repository\HallRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 class HallService
 {
     /**
-     * @var SalaRepository
+     * @var HallRepository
      */
     private $repo;
     /**
@@ -20,17 +20,17 @@ class HallService
      */
     private $em;
     /**
-     * @var OpcjaRepository
+     * @var OptionRepository
      */
     private $optionsRepo;
 
     /**
      * HallService constructor.
-     * @param SalaRepository $repo
-     * @param OpcjaRepository $optionsRepo
+     * @param HallRepository $repo
+     * @param OptionRepository $optionsRepo
      * @param EntityManagerInterface $em
      */
-    public function __construct(SalaRepository $repo, OpcjaRepository $optionsRepo, EntityManagerInterface $em)
+    public function __construct(HallRepository $repo, OptionRepository $optionsRepo, EntityManagerInterface $em)
     {
         $this->repo = $repo;
         $this->em = $em;
@@ -43,22 +43,22 @@ class HallService
      */
     public function getList(User $user): array
     {
-        return $this->repo->findBy(['pracownik' => $user]);
+        return $this->repo->findBy(['employee' => $user]);
     }
 
     /**
      * @param Request $request
      * @param User $user
-     * @return Sala
+     * @return Hall
      */
     public function addHall(Request $request, User $user)
     {
-        $hall = new Sala();
-        $hall->setNazwa($request->get('name'));
-        $hall->setMiasto($request->get('city'));
-        $hall->setAdresa($request->get('address'));
-        $hall->setPowierzchnia($request->get('area'));
-        $hall->setPracownik($user);
+        $hall = new Hall();
+        $hall->setName($request->get('name'));
+        $hall->setCity($request->get('city'));
+        $hall->setAddress($request->get('address'));
+        $hall->setArea($request->get('area'));
+        $hall->setEmployee($user);
 
         $this->em->persist($hall);
         $this->em->flush();
@@ -69,24 +69,24 @@ class HallService
     /**
      * @param Request $request
      * @param int $id
-     * @return Sala
+     * @return Hall
      */
     public function updateHall(Request $request, int $id)
     {
-        /** @var Sala $hall */
+        /** @var Hall $hall */
         $hall = $this->repo->find($id);
 
-        $hall->setNazwa($request->get('name'));
-        $hall->setMiasto($request->get('city'));
-        $hall->setAdresa($request->get('address'));
-        $hall->setPowierzchnia($request->get('area'));
+        $hall->setName($request->get('name'));
+        $hall->setCity($request->get('city'));
+        $hall->setAddress($request->get('address'));
+        $hall->setArea($request->get('area'));
         $options = $request->get('options');
         if (\is_array($options)) {
             $options = array_map(function($item) { return (int)$item; }, $options);
             $options = $this->optionsRepo->findBy(['id' => $options]);
-            $hall->setOpcje($options);
+            $hall->setOptions($options);
         } else {
-            $hall->setOpcje([]);
+            $hall->setOptions([]);
         }
 
         $this->em->persist($hall);
@@ -97,16 +97,16 @@ class HallService
 
     /**
      * @param $id
-     * @return Sala
+     * @return Hall
      */
-    public function getHall($id): Sala
+    public function getHall($id): Hall
     {
         return $this->repo->find($id);
     }
 
     /**
      * @param $id
-     * @return Sala|null
+     * @return Hall|null
      */
     public function removeHall($id)
     {
