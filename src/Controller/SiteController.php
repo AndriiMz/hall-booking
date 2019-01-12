@@ -108,6 +108,7 @@ class SiteController extends Controller
         $options = $item->getOptions();
         $prices = $this->priceService->getByHall($item);
         $price = $this->priceService->getByDate($item);
+        $bookings = $item->getBooking();
 
         $basketItems = $this->basketService->getIndexes();
 
@@ -118,7 +119,8 @@ class SiteController extends Controller
                 'options' => $options,
                 'price' => $price,
                 'prices' => $prices,
-                'basketItems' => $basketItems
+                'basketItems' => $basketItems,
+                'bookings' => $bookings
             ]
         );
     }

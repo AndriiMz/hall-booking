@@ -44,6 +44,7 @@
             </div>
             <p><b>Miasto:</b>{{ hall.city }}</p>
             <p><b>Adresa:</b>{{ hall.address }}</p>
+            <p><b>Pole powierzchni:</b>{{ hall.area }} m2</p>
             <p><b>Opcje:</b></p>
             <ul class="list-group">
                 {% for option in options %}
@@ -54,11 +55,27 @@
             <ul class="list-group">
                 {% for price in prices %}
                     <li class="list-group-item">
-                        {{ price.dateFrom|date("d-m-Y") }} - {{ price.dateTo|date("d-m-Y") }}:
+                        {{ price.dateFrom|date("Y-m-d") }} - {{ price.dateTo|date("Y-m-d") }}:
                         <b>{{ price.value }},-</b>
                     </li>
                 {% endfor %}
             </ul>
+
+            <p><b>Rezerwacje:</b></p>
+            {% if bookings|length > 0 %}
+                <ul class="list-group">
+                    {% for booking in bookings %}
+                        <li class="list-group-item">
+                            {{ booking.dateFrom|date("Y-m-d H:i") }} - {{ booking.dateTo|date("Y-m-d H:i") }}:
+                            <b>{{ booking.client.firstName }}</b>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <div class="alert alert-primary" role="alert">
+                    Nie ma jeszcze rezerwacji, bądź pierwszy
+                </div>
+            {% endif %}
 
         </div>
 
