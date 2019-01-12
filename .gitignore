@@ -2,8 +2,10 @@
 ###> symfony/framework-bundle ###
 /.env
 /public/bundles/
+/public/uploads/images/
 /var/
 /vendor/
+!.gitkeep
 ###< symfony/framework-bundle ###
 
 ###> docker ###

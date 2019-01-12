@@ -15,11 +15,12 @@
 }
 
 .navbar-main .navbar-nav {
-    display: inline-flex;
+    display: flex;
+    flex-direction: row;
 }
 
 .navbar-main .navbar-nav li {
-    display: inline-block;
+    margin-left: 30px;
 }
 
 .navbar-main {
@@ -64,6 +65,22 @@ footer {
 }
 
 
+.card-img-top {
+    height: 150px;
+}
+
+.card-body p {
+    margin-bottom: 3px;
+}
+
+.card-body .card-price {
+    color: red;
+}
+
+.card-body .card-price h4 {
+    margin-bottom: 0;
+}
+
 /*** -----  security view ----- ***/
 .login-form {
     margin: 20px 200px;
@@ -89,36 +106,50 @@ footer {
 }
 
 .hall-card-body .hall-images {
-    width: 30%;
-    display: flex;
+    width: 250px;
     justify-content: space-between;
 }
 
-.hall-images .hall-image-main {
-    width: 75%;
+.catalog-container .hall-image-main {
+    height: 200px;
+    background-repeat: no-repeat;
 }
+
 
 .hall-images .hall-image-main img {
     width: 100%;
 }
 
 .hall-images .hall-images-preview {
-    width: 23%;
+    margin-top: 10px;
 }
 
 .hall-images .hall-images-preview img {
-    width: 100%;
+    width: 32%;
 }
 
+.hall-description {
+    padding-left: 10px;
+}
+
+.hall-description h3 {
+    padding-right: 30px;
+}
+
+.hall-description p {
+    margin-bottom: 3px;
+}
 
 .hall-price {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 1.25em;
+    right: 1.25em;
+    color: red;
+    text-align: right;
 }
 
 .hall-price h4 {
-    color: red;
+    margin-bottom: 0;
 }
 /*** ----- end catalog view ----- ***/
 
@@ -128,9 +159,19 @@ footer {
     position: relative;
 }
 
-.hall-container .hall-images {
-    display: flex;
-    justify-content: space-between;
+.hall-container .hall-image-main {
+    height: 300px;
+    width: 100%;
+    background-repeat: no-repeat;
+}
+
+.hall-container h1 {
+    padding-right: 50px;
+}
+
+.hall-container p {
+    margin-top: 3px;
+    margin-bottom: 3px;
 }
 /*** ----- end item view ----- ***/
 
@@ -147,11 +188,40 @@ footer {
 }
 
 .booking-container ul.hall-images li {
-    max-width: 150px;
+    width: 150px;
+    height: 120px;
     margin-right: 5px;
 }
 
 .booking-container ul.hall-images li img {
-    max-width: 150px;
+    width: 150px;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.booking-container ul.hall-images li p {
+    width: 0;
+    height: 120px;
+    display: inline-block;
+    vertical-align: bottom;
 }
 /*** ----- end booking container ----- ***/
+
+
+
+/*** ----- alerts ----- ***/
+.app {
+    position: relative;
+}
+
+.app #alert-container {
+    position: absolute;
+    width: 700px;
+    margin: auto;
+    top: 20px;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+/*** ----- end alerts ----- ***/

@@ -1,53 +1,149 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
 <div class="container booking-container">
-    <h3>{{ hall.nazwa }}</h3>
+    <h3>
+        <a href="{{ path('item', {id: hall.id}) }}">
+            {{ hall.name }}
+        </a>
+    </h3>
     {% if price is not null %}
     <div class="hall-price">
-        <h4>{{ price.wartosc }},-/godz.</h4>
+        <h4>{{ price.value }},-</h4>
+        <p class="small">za godzine</p>
     </div>
     {% endif %}
     <ul class="hall-images">
-        <li><img src="{{ asset('assets/img/bg.jpg') }}" /></li>
-        <li><img src="{{ asset('assets/img/bg.jpg') }}" /></li>
+        {% for image in hall.images %}
+            <li>
+                <img src="/uploads/images/{{ image.filePath }}" />
+                <p></p>
+            </li>
+        {% endfor %}
     </ul>
     <div class="card">
         <div class="card-body">
             <form method="post" action="{{ path('book', {id: hall.id}) }}">
                 <h4>Rezerwajca sali</h4>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="firstName" class="form-control" placeholder="Imie" required="" />
+
+                    <div class="form-row">
+                        <label for="firstName" class="col-sm-2 col-form-label">
+                            Imie
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="text"
+                                   name="firstName"
+                                   id="firstName"
+                                   class="form-control"
+                                   placeholder="Imie"
+                                   required=""
+                                   {% if user is not null %}
+                                        readonly
+                                        value="{{ user.firstName }}"
+                                   {% endif %}
+                            />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="phone" class="col-sm-2 col-form-label">
+                            Telefon
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="text"
+                                   id="phone"
+                                   name="phone"
+                                   class="form-control"
+                                   placeholder="Telefon"
+                                   required=""
+                                    {% if user is not null %}
+                                        readonly
+                                        value="{{ user.phone }}"
+                                    {% endif %}
+                            />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="mail" class="col-sm-2 col-form-label">
+                            E-mail
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="text"
+                                   name="mail"
+                                   id="mail"
+                                   class="form-control"
+                                   placeholder="E mail"
+                                   required=""
+                                   {% if user is not null %}
+                                       readonly
+                                       value="{{ user.email }}"
+                                   {% endif %}
+                            />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="username" class="col-sm-2 col-form-label">
+                            Login
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="text"
+                                   name="username"
+                                   id="username"
+                                   class="form-control"
+                                   placeholder="Login"
+                                   required=""
+                                    {% if user is not null %}
+                                        readonly
+                                        value="{{ user.username }}"
+                                    {% endif %}
+                            />
+                        </div>
+                    </div>
+                    {% if user is null %}
+                    <div class="form-row">
+                        <label for="password" class="col-sm-2 col-form-label">
+                            Hasło
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="password"
+                                   name="password"
+                                   id="password"
+                                   class="form-control"
+                                   placeholder="Hasło"
+                                   required=""
+                            />
+                        </div>
+                    </div>
+                    {% endif %}
+
+                <div class="form-row row">
+                    <label for="dateFrom" class="col-sm-2 col-form-label">
+                        Data od
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="datetime-local" name="dateFrom" class="form-control" id="dateFrom" placeholder="Data od" />
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="lastName" class="form-control" placeholder="Nazwisko" required="" />
+                <div class="form-row row">
+                    <label for="dateTo" class="col-sm-2 col-form-label">
+                        Data do
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="datetime-local" name="dateTo" class="form-control" id="dateTo" placeholder="Data do" />
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="phone" class="form-control" placeholder="Telefon" required="" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="date" class="form-control" id="dateFrom" placeholder="Data od" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="date" class="form-control" id="dateTo" placeholder="Data do" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
+                <div class="form-row row">
+                    <label for="peopleCount" class="col-sm-2 col-form-label">
+                        Ilość osób
+                    </label>
+                    <div class="col-md-10 mb-3">
                         <input type="text" name="peopleCount" class="form-control" placeholder="Ilość osób" />
                     </div>
                 </div>
 
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
+                <div class="form-row row">
+                    <label for="comment" class="col-sm-2 col-form-label">
+                        Komentarz
+                    </label>
+                    <div class="col-md-10 mb-3">
                         <textarea class="form-control" name="comment" placeholder="Komentarz"></textarea>
                     </div>
                 </div>

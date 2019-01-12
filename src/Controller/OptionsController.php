@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Option;
 use App\Enum\RequestTypeEnum;
 use App\Service\OptionService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -52,7 +53,32 @@ class OptionsController extends Controller
         }
 
         return $this->render(
-            'options/add.html.twig'
+            'options/add.html.twig',
+            ['option' => false]
+        );
+    }
+
+    /**
+     * @Route("/account/option/edit/{id}", name="option_edit", requirements={ "id": "\d+" })
+     * @param int $id
+     * @return Response
+     */
+    public function editAction(Request $request, int $id): Response
+    {
+        /** @var Option $option */
+        $option = $this->service->getById($id);
+        if ($request->isMethod(RequestTypeEnum::POST)) {
+            $this->service->updateOption(
+                $request,
+                $option
+            );
+
+            return $this->redirectToRoute('options_list');
+        }
+
+        return $this->render(
+            'options/add.html.twig',
+            ['option' => $option]
         );
     }
 

@@ -1,35 +1,44 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Opcje</h3>
-        <div class="btn-group btn-group-toggle">
-            <a href="{{ path('option_add') }}" class="btn btn-success btn-lg">
-                Dodaj opcje
-            </a>
+        <div class="card">
+            <div class="card-header">
+                <h3>Opcje</h3>
+            </div>
+            <div class="card-body">
+                <div class="btn-group btn-group-toggle mb-2">
+                    <a href="{{ path('option_add') }}" class="btn btn-success btn-lg">
+                        Dodaj opcje
+                    </a>
+                </div>
+                <table class="table table-borderless">
+                    <thead class="">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nazwa</th>
+                            <th scope="col">Opis</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for option in options %}
+                        <tr>
+                            <th scope="row">{{ option.id }}</th>
+                            <td>{{ option.name }}</td>
+                            <td>{{ option.description }}</td>
+                            <td>
+                                <a href="{{ path('option_edit', {id: option.id}) }}" class="btn btn-success btn-xs">
+                                    edytuj
+                                </a>
+                                <a href="{{ path('option_remove', {id: option.id}) }}" class="btn btn-danger btn-xs">
+                                    usuń
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nazwa</th>
-                <th scope="col">Opis</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for option in options %}
-                <tr>
-                    <th scope="row">{{ option.id }}</th>
-                    <td>{{ option.nazwa }}</td>
-                    <td>{{ option.opis }}</td>
-                    <td>
-                        <a href="{{ path('option_remove', {id: option.id}) }}" class="btn btn-danger btn-xs">
-                            usuń
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
     </div>
 {% endblock %}

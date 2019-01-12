@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Administrator;
+use App\Entity\Employee;
 use App\Entity\Hall;
 use App\Entity\User;
 use App\Repository\OptionRepository;
@@ -43,7 +45,17 @@ class HallService
      */
     public function getList(User $user): array
     {
-        return $this->repo->findBy(['employee' => $user]);
+        if ($user instanceof Employee) {
+            return $this->repo->findBy(
+                ['employee' => $user]
+            );
+        }
+
+        if ($user instanceof Administrator) {
+            return $this->repo->findAll();
+        }
+
+        return [];
     }
 
     /**

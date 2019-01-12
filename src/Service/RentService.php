@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Entity\Client;
+use App\Entity\Employee;
 use App\Entity\User;
 use App\Entity\Rent;
 use App\Repository\RentRepository;
@@ -24,8 +26,18 @@ class RentService
      */
     public function getList(User $user): array
     {
-        return $this->repo->findBy(['approvedBy' => $user]);
+        if ($user instanceof Employee) {
+            return $this->repo->findBy(['approvedBy' => $user]);
+        }
+
+        if ($user instanceof Client) {
+            return $this->repo->findByClient($user);
+        }
+
+        return [];
     }
+
+
 
     /**
      * @param int $id

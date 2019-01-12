@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Hall;
+use App\Filter\CatalogFilter;
 use App\Repository\HallRepository;
 
 class CatalogService
@@ -18,11 +19,16 @@ class CatalogService
     }
 
     /**
-     * @return Hall[]
+     * @param CatalogFilter $catalogFilter
+     * @return array
      */
-    public function getAll(): array
+    public function getAll(CatalogFilter $catalogFilter): array
     {
-        return $this->repo->findAll();
+        return $this
+            ->repo
+            ->findByCatalogFilter(
+                $catalogFilter
+            );
     }
 
     /**

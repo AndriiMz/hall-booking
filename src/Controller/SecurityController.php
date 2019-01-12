@@ -52,7 +52,6 @@ class SecurityController extends Controller
         );
     }
 
-
     /**
      * @Route("/registration", name="registration")
      * @param Request $request
@@ -82,6 +81,7 @@ class SecurityController extends Controller
     public function registrationSuccessAction($id): Response
     {
         $user = $this->userRepository->find($id);
+
 
         return $this->render(
             'security/registration-success.html.twig',

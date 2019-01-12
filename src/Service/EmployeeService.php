@@ -48,26 +48,32 @@ class EmployeeService
      */
     public function getList(): array
     {
-        return $this->userRepository->findBy(['type' => Employee::class]);
+        return $this
+            ->em
+            ->getRepository(Employee::class)
+            ->findAll();
+    }
+
+    /**
+     * @param int $id
+     * @return Employee
+     */
+    public function getById(int $id): Employee
+    {
+        return $this
+            ->em
+            ->getRepository(Employee::class)
+            ->find($id);
     }
 
     /**
      * @param Request $request
-     * @return User
+     * @return Employee
      */
-    public function addUser(Request $request): User
+    public function addUser(Request $request): Employee
     {
         $user = new Employee();
-        $user->setFirstName($request->get('firstName'));
-        $user->setLastName($request->get('lastName'));
-        $user->setEmail($request->get('email'));
-        $user->setUsername($request->get('username'));
-
-        $password = $request->get('password');
-        $user->setPlainPassword($password);
-        $user->setPassword($this->encoder->encodePassword($user, $password));
-
-
+        $user = $this->mapRequestToUser($request, $user);
         $this->em->persist($user);
         $this->em->flush();
 
@@ -87,9 +93,50 @@ class EmployeeService
         return $user;
     }
 
-    public function updateUser()
+    /**
+     * @param Request $request
+     * @param Employee $user
+     * @return Employee
+     */
+    public function updateUser(Request $request, Employee $user): Employee
     {
+        $user = $this->mapRequestToUser($request, $user);
+        $this->em->persist($user);
+        $this->em->flush();
 
+        return $user;
+    }
+
+    /**
+     * @param Request $request
+     * @param Employee $user
+     * @return Employee
+     */
+    private function mapRequestToUser(
+        Request $request,
+        Employee $user
+    ): Employee
+    {
+        $user->setFirstName($request->get('firstName'));
+        $user->setLastName($request->get('lastName'));
+        $user->setEmail($request->get('email'));
+        $user->setUsername($request->get('username'));
+
+        $password = $request->get('password');
+        $user->setPlainPassword($password);
+        $user->setPassword($this->encoder->encodePassword($user, $password));
+
+        $user->setSalary($request->get('salary'));
+        $user->setPesel($request->get('pesel'));
+        $user->setBirthDate(
+            new \DateTime($request->get('birthDate'))
+        );
+
+        $user->setCity($request->get('city'));
+        $user->setAddress($request->get('address'));
+        $user->setPhone($request->get('phone'));
+
+        return $user;
     }
 
 }

@@ -1,39 +1,200 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Dodawanie pracownika</h3>
-        <div class="login-form">
-            <form method="post" action="{{ path('staff_add') }}">
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="firstName" class="form-control" placeholder="Imie" required="" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="lastName" class="form-control" placeholder="Nazwisko" required="" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Poczta" required="" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="username" class="form-control" placeholder="Login" required="" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="password" name="password" class="form-control" placeholder="Hasło" required="" />
-                    </div>
-                </div>
+        <div class="card">
+            <div class="card-header">
+                {% if user %}
+                    <h4>Edycja pracownika</h4>
+                {% else %}
+                    <h4>Dodawanie pracownika</h4>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div class="login-form">
+                    <form method="post"
+                        {% if user %}
+                            action="{{ path('employee_edit', {id: user.id}) }}"
+                        {% else %}
+                            action="{{ path('employee_add') }}"
+                        {% endif %}
+                    >
+                        <div class="form-row row">
+                            <label for="username" class="col-sm-2 col-form-label">Login</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text"
+                                       name="username"
+                                       id="username"
+                                       class="form-control"
+                                       placeholder="Login"
+                                       required=""
+                                       {% if user %}
+                                           value="{{ user.username }}"
+                                       {% endif %}
 
-                <div class="form-footer">
-                    <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <label for="password" class="col-sm-2 col-form-label">Hasło</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="password"
+                                       name="password"
+                                       id="password"
+                                       class="form-control"
+                                       placeholder="Hasło"
+                                       required=""
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row row">
+                            <label for="lastName" class="col-sm-2 col-form-label">Nazwisko</label>
+                            <div class="col-sm-10 mb-3">
+                                <input type="text"
+                                       name="lastName"
+                                       class="form-control"
+                                       placeholder="Nazwisko"
+                                       required=""
+                                        {% if user %}
+                                            value="{{ user.lastName }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <label for="firstName" class="col-sm-2 col-form-label">Imie</label>
+                            <div class="col-sm-10 mb-3">
+                                <input type="text"
+                                       name="firstName"
+                                       id="firstName"
+                                       class="form-control"
+                                       placeholder="Imie"
+                                       required=""
+                                        {% if user %}
+                                            value="{{ user.firstName }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row row">
+                            <label for="email" class="col-sm-2 col-form-label">Poczta</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="email"
+                                       name="email"
+                                       id="email"
+                                       class="form-control"
+                                       placeholder="Poczta"
+                                       required=""
+                                        {% if user %}
+                                            value="{{ user.email }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row row">
+                            <label for="salary" class="col-sm-2 col-form-label">Pensja</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text"
+                                       name="salary"
+                                       id="salary"
+                                       class="form-control"
+                                       placeholder="Pensja"
+                                       required=""
+                                        {% if user %}
+                                            value="{{ user.salary }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <label for="pesel" class="col-sm-2 col-form-label">Pensja</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text"
+                                       name="pesel"
+                                       id="pesel"
+                                       class="form-control"
+                                       placeholder="PESEL"
+                                       required=""
+                                        {% if user %}
+                                            value="{{ user.pesel }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row row">
+                            <label for="birthDate" class="col-sm-2 col-form-label">Data urodzenia</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="date"
+                                       name="birthDate"
+                                       id="birthDate"
+                                       class="form-control"
+                                       placeholder=""
+                                       required=""
+                                        {% if user and user.birthDate %}
+                                            value="{{ user.birthDate|date('Y-m-d') }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-row row">
+                            <label for="phone" class="col-sm-2 col-form-label">Telefon</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text"
+                                       name="phone"
+                                       id="phone"
+                                       class="form-control"
+                                       placeholder="Telefon"
+                                        {% if user  %}
+                                            value="{{ user.phone }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <label for="city" class="col-sm-2 col-form-label">Miasto</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text"
+                                       name="city"
+                                       id="city"
+                                       class="form-control"
+                                       placeholder="Miasto"
+                                        {% if user  %}
+                                            value="{{ user.city }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <label for="address" class="col-sm-2 col-form-label">Adres</label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text"
+                                       name="address"
+                                       id="address"
+                                       class="form-control"
+                                       placeholder="Adres"
+                                        {% if user  %}
+                                            value="{{ user.address }}"
+                                        {% endif %}
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-footer">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                {% if user %}
+                                    Zapisz
+                                {% else %}
+                                    Dodaj
+                                {% endif %}
+                            </button>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 {% endblock %}

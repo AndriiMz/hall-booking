@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Enum\RequestTypeEnum;
+use App\Filter\CatalogFilter;
+use App\Service\BasketService;
 use App\Service\BookingService;
 use App\Service\CatalogService;
 use App\Service\OptionService;
@@ -40,19 +43,26 @@ class SiteController extends Controller
     private $registrationService;
 
     /**
+     * @var BasketService
+     */
+    private $basketService;
+
+    /**
      * SiteController constructor.
      * @param CatalogService $catalogService
      * @param OptionService $optionService
      * @param PriceService $priceService
      * @param BookingService $bookingService
      * @param RegistrationService $registrationService
+     * @param BasketService $basketService
      */
     public function __construct(
         CatalogService $catalogService,
         OptionService $optionService,
         PriceService $priceService,
         BookingService $bookingService,
-        RegistrationService $registrationService
+        RegistrationService $registrationService,
+        BasketService $basketService
     )
     {
         $this->catalogService = $catalogService;
@@ -60,21 +70,29 @@ class SiteController extends Controller
         $this->priceService = $priceService;
         $this->bookingService = $bookingService;
         $this->registrationService = $registrationService;
+        $this->basketService = $basketService;
     }
 
     /**
      * @Route("/catalog", name="catalog")
+     * @param Request $request
      * @return Response
      */
-    public function catalogAction(): Response
+    public function catalogAction(Request $request): Response
     {
+        $filter = CatalogFilter::fromRequest($request);
+        $basketItems = $this->basketService->getIndexes();
 
         return $this->render(
             'site/catalog.html.twig',
             [
                 'options' => $this->optionService->getList(),
-                'halls' => $this->catalogService->getAll(),
-                'priceService' => $this->priceService
+                'halls' => $this->catalogService->getAll(
+                    $filter
+                ),
+                'priceService' => $this->priceService,
+                'filter' => $filter,
+                'basketItems' => $basketItems
             ]
         );
     }
@@ -91,13 +109,16 @@ class SiteController extends Controller
         $prices = $this->priceService->getByHall($item);
         $price = $this->priceService->getByDate($item);
 
+        $basketItems = $this->basketService->getIndexes();
+
         return $this->render(
             'site/item.html.twig',
             [
                 'hall' => $item,
                 'options' => $options,
                 'price' => $price,
-                'prices' => $prices
+                'prices' => $prices,
+                'basketItems' => $basketItems
             ]
         );
     }
@@ -113,8 +134,18 @@ class SiteController extends Controller
         $item = $this->catalogService->getItem($id);
         $price = $this->priceService->getByDate($item);
 
+        $user = $this->getUser();
+
+        if (!($user instanceof Client)) {
+            $user = null;
+        }
+
         if ($request->isMethod(RequestTypeEnum::POST)) {
-            $user = $this->registrationService->fromBookingRequest($request);
+            $user = $this->getUser();
+            if (null === $user) {
+                $user = $this->registrationService->fromBookingRequest($request);
+            }
+
             $booking = $this->bookingService->add(
                 $request,
                 $user,
@@ -133,7 +164,8 @@ class SiteController extends Controller
             'site/book.html.twig',
             [
                 'hall' => $item,
-                'price' => $price
+                'price' => $price,
+                'user' => $user
             ]
         );
     }
@@ -146,12 +178,26 @@ class SiteController extends Controller
     public function bookSuccessAction(int $id): Response
     {
         $booking = $this->bookingService->getById($id);
+        $user = $this->getUser();
 
         return $this->render(
             'site/book-success.html.twig',
             [
-                'booking' => $booking
+                'booking' => $booking,
+                'user' => $user
             ]
+        );
+    }
+
+    /**
+     * @Route("/about", name="about")
+     * @var int $id
+     * @return Response
+     */
+    public function aboutAction(): Response
+    {
+        return $this->render(
+            'site/about.html.twig'
         );
     }
 

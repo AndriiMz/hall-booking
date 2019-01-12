@@ -11,7 +11,7 @@ services:
             - MYSQL_PASSWORD=${MYSQL_PASSWORD}
             - MYSQL_VERSION=5.7
         ports:
-          - "33066:3306"
+          - "33068:3306"
         networks:
             - "project-network"
     php:

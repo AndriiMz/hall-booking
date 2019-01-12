@@ -3,9 +3,11 @@
 namespace App\Service;
 
 use App\Entity\Booking;
+use App\Entity\Client;
 use App\Entity\Hall;
 use App\Entity\User;
 use App\Entity\Rent;
+use App\Filter\CatalogFilter;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Query\ResultSetMappingBuilder;
@@ -93,14 +95,21 @@ class BookingService
 
         $dateTo = $booking->getDateFrom();
         $dateFrom = $booking->getDateTo();
+
         $interval = $dateFrom->diff($dateTo);
-        $days = (int)$interval->format('d');
-        $price = $this->priceService->getByDate($booking->getSala());
+        $hours = $interval->h;
+        $hours = $hours + ($interval->days * 24);
+
+        $filter = new CatalogFilter();
+        $filter->dateFrom = $dateFrom;
+        $filter->dateTo = $dateTo;
+
+        $price = $this->priceService->getByDate($booking->getHall(), $filter);
 
         if (null !== $price) {
-            $rent->setAmount($days * $price->getWartosc());
+            $rent->setAmount($hours * $price->getValue());
         } else {
-            $rent->setAmount($days);
+            $rent->setAmount($hours);
         }
 
         $this->em->persist($rent);
@@ -110,16 +119,29 @@ class BookingService
     }
 
     /**
+     * @param Client|null $client
      * @return array|Rent
      */
-    public function getList(): array
+    public function getList(Client $client = null): array
     {
-        $sqlQuery = 'SELECT 
+        $userCondition = '';
+        $userJoin = '';
+
+        if ($client) {
+            $userJoin = 'LEFT JOIN client c ON b.client_id = c.id ';
+            $userCondition = sprintf('AND c.id = %s', $client->getId());
+        }
+
+        $sqlQuery = sprintf('SELECT 
             b.*
             FROM 
             booking b 
-            LEFT JOIN booking r 
-            ON r.rezewacja_id = b.id WHERE r.id IS NULL';
+            LEFT JOIN rent r 
+            ON r.booking_id = b.id 
+            %s WHERE r.id IS NULL %s',
+            $userJoin,
+            $userCondition
+        );
 
         $rsm = new ResultSetMappingBuilder($this->em);
         $rsm->addRootEntityFromClassMetadata(Booking::class, 'b');

@@ -1,14 +1,18 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Sale</h3>
-        <div class="btn-group btn-group-toggle">
-            <a href="{{ path('hall_add') }}" class="btn btn-success btn-lg">
-                Dodaj sale
-            </a>
-        </div>
-        <table class="table">
-            <thead class="thead-dark">
+        <div class="card">
+            <div class="card-header">
+                <h3>Sale</h3>
+            </div>
+            <div class="card-body">
+            <div class="btn-group btn-group-toggle mb-2">
+                <a href="{{ path('hall_add') }}" class="btn btn-success btn-lg">
+                    Dodaj sale
+                </a>
+            </div>
+            <table class="table table-borderless">
+            <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Nazwa</th>
@@ -22,10 +26,10 @@
             {% for hall in halls %}
                 <tr>
                     <th scope="row">{{ hall.id }}</th>
-                    <td>{{ hall.nazwa }}</td>
-                    <td>{{ hall.miasto }}</td>
-                    <td>{{ hall.adresa }}</td>
-                    <td>{{ hall.powierzchnia }}</td>
+                    <td>{{ hall.name }}</td>
+                    <td>{{ hall.city }}</td>
+                    <td>{{ hall.address }}</td>
+                    <td>{{ hall.area }}</td>
                     <td>
                         <a href="{{ path('prices_list', {id: hall.id }) }}" class="btn btn-primary btn-xs">
                             ceny
@@ -44,5 +48,7 @@
             {% endfor %}
             </tbody>
         </table>
+            </div>
+        </div>
     </div>
 {% endblock %}

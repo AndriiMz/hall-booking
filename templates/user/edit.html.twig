@@ -1,0 +1,190 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <form method="post">
+                <h4>Edycja profilu</h4>
+                {% if msg is not null %}
+                    <div class="alert alert-success" role="alert">
+                        {{ msg }}
+                    </div>
+                {% endif %}
+                <div class="form-row">
+                    <label for="firstName" class="col-sm-2 col-form-label">
+                        Imie
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text"
+                               name="firstName"
+                               id="firstName"
+                               class="form-control"
+                               placeholder="Imie"
+                               required=""
+                                {% if user is not null %}
+                                    value="{{ user.firstName }}"
+                                {% endif %}
+                        />
+                    </div>
+                </div>
+                {% if  app.user.role == 'EMPLOYEE_ROLE' %}
+                    <div class="form-row">
+                        <label for="lastName" class="col-sm-2 col-form-label">
+                            Nazwisko
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="text"
+                                   name="lastName"
+                                   id="lastName"
+                                   class="form-control"
+                                   placeholder="Nazwisko"
+                                   required=""
+                                    {% if user is not null %}
+                                        value="{{ user.lastName }}"
+                                    {% endif %}
+                            />
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="form-row">
+                    <label for="phone" class="col-sm-2 col-form-label">
+                        Telefon
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text"
+                               id="phone"
+                               name="phone"
+                               class="form-control"
+                               placeholder="Telefon"
+                               required=""
+                                {% if user is not null %}
+                                    value="{{ user.phone }}"
+                                {% endif %}
+                        />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="mail" class="col-sm-2 col-form-label">
+                        E-mail
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text"
+                               name="mail"
+                               id="mail"
+                               class="form-control"
+                               placeholder="E mail"
+                               required=""
+                                {% if user is not null %}
+                                    value="{{ user.email }}"
+                                {% endif %}
+                        />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="username" class="col-sm-2 col-form-label">
+                        Login
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text"
+                               name="username"
+                               id="username"
+                               class="form-control"
+                               placeholder="Login"
+                               required=""
+                                {% if user is not null %}
+                                    value="{{ user.username }}"
+                                {% endif %}
+                        />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="password" class="col-sm-2 col-form-label">
+                        Hasło
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="password"
+                               name="password"
+                               id="password"
+                               class="form-control"
+                               placeholder="Hasło"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label for="city" class="col-sm-2 col-form-label">
+                        Miasto
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text"
+                               id="city"
+                               name="city"
+                               class="form-control"
+                               placeholder="Miasto"
+                               required=""
+                                {% if user is not null %}
+                                    value="{{ user.city }}"
+                                {% endif %}
+                        />
+                    </div>
+                </div>
+                <div class="form-row">
+                    <label for="address" class="col-sm-2 col-form-label">
+                        Adres
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text"
+                               id="address"
+                               name="address"
+                               class="form-control"
+                               placeholder="Adres"
+                               required=""
+                                {% if user is not null %}
+                                    value="{{ user.address }}"
+                                {% endif %}
+                        />
+                    </div>
+                </div>
+                {% if  app.user.role == 'EMPLOYEE_ROLE' %}
+                    <div class="form-row">
+                        <label for="pesel" class="col-sm-2 col-form-label">
+                            Pesel
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="text"
+                                   name="pesel"
+                                   id="pesel"
+                                   class="form-control"
+                                   placeholder="Pesel"
+                                    {% if user is not null %}
+                                        value="{{ user.pesel }}"
+                                    {% endif %}
+                            />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <label for="birthDate" class="col-sm-2 col-form-label">
+                            Data urodzenia
+                        </label>
+                        <div class="col-md-10 mb-3">
+                            <input type="date"
+                                   name="birthDate"
+                                   id="birthDate"
+                                   class="form-control"
+                                   placeholder="Data urodzenia"
+                                    {% if user is not null and user.birthDate is not null %}
+                                        value="{{ user.birthDate|date('Y-m-d') }}"
+                                    {% endif %}
+                            />
+                        </div>
+                    </div>
+
+                {% endif %}
+                <div class="form-footer">
+                    <button class="btn btn-primary btn-lg" type="submit">Zapisz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

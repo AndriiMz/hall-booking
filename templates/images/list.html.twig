@@ -1,35 +1,41 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Zdjęcia sali "{{ hall.nazwa }}"</h3>
-        <div class="btn-group btn-group-toggle">
-            <a href="{{ path('image_add', {id: hall.id}) }}" class="btn btn-success btn-lg">
-                Dodaj zdjęcie
-            </a>
+        <div class="card">
+            <div class="card-header">
+                <h3>Zdjęcia sali "{{ hall.name }}"</h3>
+            </div>
+            <div class="card-body">
+                <div class="btn-group btn-group-toggle mb-2">
+                    <a href="{{ path('image_add', {id: hall.id}) }}" class="btn btn-success btn-lg">
+                        Dodaj zdjęcie
+                    </a>
+                </div>
+                <table class="table table-borderless">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Zdjęcie</th>
+                        <th scope="col"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for image in images %}
+                        <tr>
+                            <th scope="row">{{ image.id }}</th>
+                            <td>
+                                <img height="100" src="{{ images_directory_relative ~ image.filePath }}"/>
+                            </td>
+                            <td>
+                                <a href="{{ path('image_remove', {id: image.id, hallId: hall.id}) }}" class="btn btn-danger btn-xs">
+                                    usuń
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Zdjęcie</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for image in images %}
-                <tr>
-                    <th scope="row">{{ image.id }}</th>
-                    <td>
-                        <img height="100" src="{{ images_directory_relative ~ image.filePath }}"/>
-                    </td>
-                    <td>
-                        <a href="{{ path('image_remove', {id: image.id, hallId: hall.id}) }}" class="btn btn-danger btn-xs">
-                            usuń
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
     </div>
 {% endblock %}

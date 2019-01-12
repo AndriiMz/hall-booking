@@ -55,10 +55,22 @@ class Hall
     private $options;
 
     /**
+     * @ORM\OneToMany(targetEntity="Price", mappedBy="hall", fetch="EXTRA_LAZY")
+     * @var Collection $prices
+     */
+    private $prices;
+
+    /**
      * @ORM\OneToMany(targetEntity="Image", mappedBy="hall", fetch="EXTRA_LAZY")
      * @var Collection $images
      */
     private $images;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="hall", fetch="EXTRA_LAZY")
+     * @var Collection $booking
+     */
+    private $booking;
 
     public function getId(): ?int
     {
@@ -175,5 +187,37 @@ class Hall
     public function setImages(Collection $images): void
     {
         $this->images = $images;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getBooking(): Collection
+    {
+        return $this->booking;
+    }
+
+    /**
+     * @param Collection $booking
+     */
+    public function setBooking(Collection $booking): void
+    {
+        $this->booking = $booking;
+    }
+
+    /**
+     * @return Collection
+     */
+    public function getPrices(): Collection
+    {
+        return $this->prices;
+    }
+
+    /**
+     * @param Collection $prices
+     */
+    public function setPrices(Collection $prices): void
+    {
+        $this->prices = $prices;
     }
 }

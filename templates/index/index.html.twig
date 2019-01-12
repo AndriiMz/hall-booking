@@ -2,17 +2,17 @@
 {% block body %}
 <div class="container-fluid">
     <div class="main-hero">
-        <h2>Tekst tytulowy</h2>
+        <h2>Wyszukaj idealną sale</h2>
         <div class="form-group-hero">
-            <form class="form-inline ">
+            <form class="form-inline" action="{{ path('catalog') }}">
                 <div class="form-group mb-4">
                     <label for="data-od" class="sr-only"></label>
-                    <input type="text" placeholder="Data od" class="form-control" id="data-od" value="">
+                    <input name="date[from]" type="date" placeholder="Data od" class="form-control" id="data-od" value="">
                 </div>
                 <div class="form-group mx-sm-3 mb-4">
                     <label for="data-do" class="sr-only"></label>
-                    <input type="text" placeholder="Data do" class="form-control" id="data-do" value="">
-                </div>c
+                    <input name="date[to]" type="date" placeholder="Data do" class="form-control" id="data-do" value="">
+                </div>
                 <button type="submit" class="btn btn-primary mb-4">Szukaj</button>
             </form>
         </div>
@@ -22,42 +22,55 @@
 <div class="popular-halls">
     <h2 class="main-subtitle">Popularne sali</h2>
     <div class="row">
+        {% for hall in halls %}
         <div class="col-sm">
             <div class="card" style="width: 100%;">
-                <img class="card-img-top" src="{{ asset('assets/img/bg.jpg') }}" alt="Card image cap">
+                {% set image = hall.images[0] %}
+                {% if image is not null %}
+                    <div class="card-img-top"
+                         style="
+                                 background: url('/uploads/images/{{ image.filePath }}') center center;
+                                 background-size: 100% auto;
+                                 "
+                    >
+                    </div>
+                {% else %}
+                    <div class="card-img-top"
+                         style="
+                                 background: url('assets/img/bg.jpg') center center;
+                                 background-size: 100% auto;
+                                 "
+                    >
+                    </div>
+                {% endif %}
                 <div class="card-body">
-                    <h5 class="card-title">Nazwa sali</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <span class="badge badge-pill badge-success" style="font-size: 24px; margin-bottom: 4px">100,-/godz.</span>
+                    <h5 class="card-title">{{ hall.name }}</h5>
+                    <p class="card-text">
+                        <b>Opcje:</b>
+                        {% for option in hall.options %}
+                            {{ option.name }},
+                        {% endfor %}
+                    </p>
+                    {% set price = priceService.getByDate(hall) %}
+                    {% if not price is null %}
+                        <div class="card-price">
+                            <h4>
+                                {{ price.value }},-
+                            </h4>
+                            <p class="small">
+                                za godzine
+                            </p>
+                        </div>
+                    {% endif %}
                     <br/>
-                    <a href="#" class="btn btn-primary">Zobać</a>
+                    <a href="{{ path('item', {id: hall.id}) }}" class="btn btn-success">Zobać</a>
+                    <a href="{{ path('book', {id: hall.id}) }}" class="btn btn-primary">
+                        Rezerwuj
+                    </a>
                 </div>
             </div>
         </div>
-        <div class="col-sm">
-            <div class="card" style="width: 100%;">
-                <img class="card-img-top" src="{{ asset('assets/img/bg.jpg') }}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Nazwa sali</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <span class="badge badge-pill badge-success" style="font-size: 24px; margin-bottom: 4px">100,-/godz.</span>
-                    <br/>
-                    <a href="#" class="btn btn-primary">Zobać</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm">
-            <div class="card" style="width: 100%;">
-                <img class="card-img-top" src="{{ asset('assets/img/bg.jpg') }}" alt="Card image cap">
-                <div class="card-body">
-                    <h5 class="card-title">Nazwa sali</h5>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                    <span class="badge badge-pill badge-success" style="font-size: 24px; margin-bottom: 4px">100,-/godz.</span>
-                    <br/>
-                    <a href="#" class="btn btn-primary">Zobać</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 </div>

@@ -1,11 +1,23 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
 <div class="container">
-    <h2>Dzękujemy za rezerwcje, numer twojej rezerwacji - {{ booking.id }}</h2>
+    <h2>
+        Dzękujemy za rezerwcje, numer twojej rezerwacji:
+        <b>{{ booking.id }}</b>
+    </h2>
+    <p>
+        Zaczekaj na sms-a od z potwierdzeniem.
+    </p>
     <div class="btn-group">
-        <a href="{{ path('login') }}" class="btn btn-success">
-            Zaloguj się
-        </a>
+        {% if user is null %}
+            <a href="{{ path('login') }}" class="btn btn-success">
+                Zaloguj się
+            </a>
+        {% else %}
+            <a href="{{ path('account') }}" class="btn btn-success">
+                Przejdź do konta
+            </a>
+        {% endif %}
     </div>
 </div>
 {% endblock %}

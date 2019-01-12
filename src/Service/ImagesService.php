@@ -42,7 +42,7 @@ class ImagesService
         $image = new Image();
         /** @var UploadedFile $file */
         $file = $request->files->get('image');
-        $fileName = $hall->getNazwa() . '_' . \uniqid('', true) . '.jpg';
+        $fileName = $hall->getName() . '_' . \uniqid('', true) . '.jpg';
         $file->move($filePath, $fileName);
         $image->setFilePath($fileName);
         $image->setHall($hall);

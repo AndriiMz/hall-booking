@@ -1,37 +1,52 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Pracownicy</h3>
-        <div class="btn-group btn-group-toggle">
-            <a href="{{ path('staff_add') }}" class="btn btn-success btn-lg">
-                Dodaj pracownika
-            </a>
+        <div class="card">
+            <div class="card-header">
+                <h3>Pracownicy</h3>
+            </div>
+            <div class="card-body">
+                <div class="btn-group btn-group-toggle mb-2">
+                    <a href="{{ path('employee_add') }}" class="btn btn-success btn-lg">
+                        Dodaj pracownika
+                    </a>
+                </div>
+                <table class="table table-borderless">
+                    <thead class="">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nazwisko</th>
+                            <th scope="col">Imie</th>
+                            <th scope="col">Informacja</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <th scope="row">{{ user.id }}</th>
+                            <td>{{ user.lastName }}</td>
+                            <td>{{ user.firstName }}</td>
+                            <td>
+                                Email: {{ user.email }} <br/>
+                                Telefon: {{ user.phone }} <br/>
+                                Pesel: {{ user.pesel }} <br/>
+                                Pensja: {{ user.salary }} <br/>
+
+                            </td>
+                            <td>
+                                <a href="{{ path('employee_edit', {id: user.id}) }}" class="btn btn-success btn-xs">
+                                    edytuj
+                                </a>
+                                <a href="{{ path('employee_remove', {id: user.id}) }}" class="btn btn-danger btn-xs">
+                                    usuń
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Imie</th>
-                <th scope="col">Nazwisko</th>
-                <th scope="col">Email</th>
-                <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    <th scope="row">{{ user.id }}</th>
-                    <td>{{ user.firstName }}</td>
-                    <td>{{ user.lastName }}</td>
-                    <td>{{ user.email }}</td>
-                    <td>
-                        <a href="{{ path('staff_remove', {id: user.id}) }}" class="btn btn-danger btn-xs">
-                            usuń
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
     </div>
 {% endblock %}

@@ -10,7 +10,9 @@
 </head>
 <body>
 {% set currentPath = app.request.get('_route') %}
-<body>
+<body class="app">
+<div id="alert-container">
+</div>
 <div class="container">
     <nav class="navbar navbar-light navbar-main">
         <ul class="navbar-nav-left">
@@ -21,14 +23,18 @@
             </li>
         </ul>
         <ul class="navbar-nav">
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="{{ path('catalog') }}">Catalog</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">O firmie</a>
+                <a href="{{ path('basket') }}" class="nav-link">Koszyk</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('about') }}">O firmie</a>
             </li>
         </ul>
         <ul class="navbar-nav-right">
+
             {% if app.user is null %}
                 <li>
                     <a href="{{ path('login') }}" class="btn btn-primary">Zaloguj się</a>
@@ -56,13 +62,13 @@
                 <div class="col-sm">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Catalog</a>
+                            <a class="nav-link" href="{{ path('catalog') }}">Catalog</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">O firmie</a>
+                            <a href="{{ path('basket') }}" class="nav-link">Koszyk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Informacje</a>
+                            <a class="nav-link" href="{{ path('about') }}">O firmie</a>
                         </li>
                     </ul>
                 </div>

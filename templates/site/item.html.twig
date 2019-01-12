@@ -3,49 +3,63 @@
 <div class="container hall-container">
     {% if price is not null %}
         <div class="hall-price">
-            <h4>{{ price.wartosc }},-/godz.</h4>
+            <h4>{{ price.value }},-</h4>
+            <p class="small">za godzine</p>
         </div>
     {% endif %}
     <div class="row">
         <div class="col-sm-5">
             <div class="hall-images">
-                <div class="hall-image-main">
-                    <img src="{{ asset('assets/img/bg.jpg') }}" />
+                <div class="hall-image-main"
+                     style="
+                             background: url('/uploads/images/{{ hall.images[0].filePath }}') center center;
+                             background-size: 100% auto;
+                             ">
                 </div>
                 <div class="hall-images-preview">
-                    <img src="{{ asset('assets/img/bg.jpg') }}" />
-                    <img src="{{ asset('assets/img/bg.jpg') }}" />
-                    <img src="{{ asset('assets/img/bg.jpg') }}" />
+                    <img src="/uploads/images/{{ hall.images[1].filePath }}" />
+                    <img src="/uploads/images/{{ hall.images[2].filePath }}" />
+                    <img src="/uploads/images/{{ hall.images[3].filePath }}" />
                 </div>
             </div>
         </div>
         <div class="col-sm-7">
-            <h1>{{ hall.nazwa }}</h1>
-            <p><b>Miasto:</b>{{ hall.miasto }}</p>
-            <p><b>Adresa:</b>{{ hall.adresa }}</p>
-            <p><b>Opcje:</b></p>
-            <ul>
-                {% for option in options %}
-                    <li>{{ option.nazwa }}</li>
-                {% endfor %}
-            </ul>
-            <p><b>Ceny:</b></p>
-            <ul>
-                {% for price in prices %}
-                    <li>
-                        {{ price.dataOd|date("m/d/Y") }} - {{ price.dataDo|date("m/d/Y") }}
-                        : <b>{{ price.wartosc }},-/godz</b>
-                    </li>
-                {% endfor %}
-            </ul>
+            <h1>{{ hall.name }}</h1>
+            {% if price is null %}
+                <div class="alert alert-warning" role="alert">
+                    Sala nie ma ceny w ybranym zakresie dat.
+                    Prosze o kontakt z pracownikiem {{ hall.employee.phone }} ({{ hall.employee.firstName }})
+                </div>
+            {% endif %}
             <div class="btn-group-sm">
-                <a href="#" id="add-to-card" data-id="{{ hall.id }}" class="btn btn-success btn-sm">
-                    Dodaj do koszyka
-                </a>
+                {% if hall.id not in basketItems %}
+                    <a href="#" data-id="{{ hall.id }}" class="btn btn-success btn-sm add-to-card">
+                        Dodaj do koszyka
+                    </a>
+                {% endif %}
+
                 <a href="{{ path('book', {id: hall.id}) }}" class="btn btn-primary btn-sm">
                     Rezerwuj
                 </a>
             </div>
+            <p><b>Miasto:</b>{{ hall.city }}</p>
+            <p><b>Adresa:</b>{{ hall.address }}</p>
+            <p><b>Opcje:</b></p>
+            <ul class="list-group">
+                {% for option in options %}
+                    <li class="list-group-item">{{ option.name }}</li>
+                {% endfor %}
+            </ul>
+            <p><b>Ceny:</b></p>
+            <ul class="list-group">
+                {% for price in prices %}
+                    <li class="list-group-item">
+                        {{ price.dateFrom|date("d-m-Y") }} - {{ price.dateTo|date("d-m-Y") }}:
+                        <b>{{ price.value }},-</b>
+                    </li>
+                {% endfor %}
+            </ul>
+
         </div>
 
     </div>

@@ -1,23 +1,62 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Dodawanie opcji</h3>
-        <div class="login-form">
-            <form method="post" action="{{ path('option_add') }}">
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="name" class="form-control" placeholder="Nazwa" required="" />
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                {% if option %}
+                    <h3>Edycja opcji</h3>
+                {% else %}
+                    <h3>Dodawanie opcji</h3>
+                {% endif %}
+            </div>
+            <div class="card-body">
+                <div class="login-form">
+                    <form method="post"
+                          {% if option %}
+                             action="{{ path('option_edit', {id: option.id}) }}"
+                          {% else %}
+                             action="{{ path('option_add') }}"
+                          {% endif %}
+                    >
+                        <div class="form-row row">
+                            <label for="name" class="col-sm-2 col-form-label">
+                                Nazwa
+                            </label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text"
+                                       name="name"
+                                       id="name"
+                                       class="form-control"
+                                       placeholder="Nazwa"
+                                       required=""
+                                       {% if option %}
+                                            value="{{ option.name }}"
+                                       {% endif %}
+                                />
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <label for="description" class="col-sm-2 col-form-label">Opis</label>
+                            <div class="col-md-10 mb-3">
+                                <textarea class="form-control"
+                                          id="description"
+                                          name="description"
+                                          placeholder="Opis"
+                                >{% if option %}{{ option.description }}{% endif %}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                {% if option %}
+                                    Zapisz
+                                {% else %}
+                                    Dodaj
+                                {% endif %}
+                            </button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <textarea class="form-control" name="description" placeholder="Opis"></textarea>
-                    </div>
-                </div>
-                <div class="form-footer">
-                    <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 {% endblock %}

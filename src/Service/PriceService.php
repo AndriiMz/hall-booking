@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Hall;
+use App\Filter\CatalogFilter;
 use App\Repository\PriceRepository;
 use App\Entity\Price;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,17 +23,13 @@ class PriceService
     }
 
     /**
-     * @param \DateTime|null $date
+     * @param CatalogFilter|null $filter
      * @param Hall $hall
      * @return Price|null
      */
-    public function getByDate($hall, \DateTime $date = null): ?Price
+    public function getByDate($hall, $filter = null): ?Price
     {
-        if (null === $date) {
-            $date = new \DateTime();
-        }
-
-        return $this->repo->findByDate($hall, $date);
+        return $this->repo->findByFilter($hall, $filter);
     }
 
     /**

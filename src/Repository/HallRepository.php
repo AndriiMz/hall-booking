@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Hall;
+use App\Filter\CatalogFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -19,32 +20,86 @@ class HallRepository extends ServiceEntityRepository
         parent::__construct($registry, Hall::class);
     }
 
-//    /**
-//     * @return Sala[] Returns an array of Sala objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return array
+     */
+    public function findPopular($count = 3): array
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('h')
+            ->addSelect('COUNT(h.id) AS HIDDEN counter')
+            ->leftJoin('h.booking', 'b')
+            ->groupBy('h.id')
+            ->orderBy('counter', 'DESC')
+            ->setMaxResults($count)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Sala
+    /**
+     * @param CatalogFilter $catalogFilter
+     * @return array
+     */
+    public function findByCatalogFilter(CatalogFilter $catalogFilter): array
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+        $queryBuilder = $this->createQueryBuilder('h');
+
+        if ($catalogFilter->options && !empty($catalogFilter->options)) {
+            $queryBuilder = $queryBuilder->leftJoin('h.options', 'opts')
+                ->where('opts.id IN (:options)')
+                ->setParameter(
+                    'options',
+                    array_values(
+                        $catalogFilter->options
+                    )
+                );
+        }
+
+        if ($catalogFilter->hasPriceFiltering()) {
+            $queryBuilder = $queryBuilder->leftJoin('h.prices', 'price');
+
+            $dateCondition = [];
+            $dateParameters = [];
+
+            if ($catalogFilter->dateFrom) {
+                $dateCondition[] = 'price.dateFrom <= :dateFrom AND price.dateTo >= :dateFrom';
+                $dateParameters['dateFrom'] = $catalogFilter->dateFrom;
+            }
+
+            if ($catalogFilter->dateTo) {
+                $dateCondition[] = 'price.dateFrom <= :dateTo AND price.dateTo >= :dateTo';
+                $dateParameters['dateTo'] = $catalogFilter->dateTo;
+            }
+
+            if (!empty($dateCondition) && !empty($dateParameters)) {
+                $queryBuilder = $queryBuilder
+                    ->andWhere(implode(' OR ', $dateCondition));
+
+                foreach ($dateParameters as $key => $dateParameter) {
+                    $queryBuilder = $queryBuilder
+                        ->setParameter($key, $dateParameter);
+                }
+            } else {
+                $queryBuilder = $queryBuilder
+                    ->andWhere('price.dateFrom <= :date AND price.dateTo >= :date')
+                    ->setParameter('date', new \DateTime());
+            }
+
+            if ($catalogFilter->priceFrom) {
+                $queryBuilder = $queryBuilder
+                    ->andWhere('price.value >= :priceFrom')
+                    ->setParameter('priceFrom', $catalogFilter->priceFrom);
+            }
+
+            if ($catalogFilter->priceTo) {
+                $queryBuilder = $queryBuilder
+                    ->andWhere('price.value <= :priceTo')
+                    ->setParameter('priceTo', $catalogFilter->priceTo);
+            }
+        }
+
+        return $queryBuilder
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getResult();
     }
-    */
 }

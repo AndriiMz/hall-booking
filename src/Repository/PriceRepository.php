@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Price;
 use App\Entity\Hall;
+use App\Filter\CatalogFilter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -21,49 +22,50 @@ class PriceRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param \DateTime $date
+     * @param CatalogFilter|null $filter
      * @param Hall $hall
      * @return null|Price
      */
-    public function findByDate(Hall $hall, \DateTime $date): ?Price
+    public function findByFilter(Hall $hall, CatalogFilter $filter = null): ?Price
     {
-        return $this->createQueryBuilder('c')
-            ->where('c.dataOd < :date')
-            ->andWhere('c.dataDo > :date')
-            ->setParameter('date', $date->format('Y-m-d'))
-            ->andWhere('c.sala = :hall')
-            ->setParameter('hall', $hall)
-            ->getQuery()
-            ->getOneOrNullResult()
-            ;
-    }
+        $queryBuilder = $this->createQueryBuilder('c')
+            ->andWhere('c.hall = :hall')
+            ->setParameter('hall', $hall);
 
-//    /**
-//     * @return Cena[] Returns an array of Cena objects
-//     */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        if (!$filter || (!$filter->dateFrom && !$filter->dateTo)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('c.dateFrom <= :date AND c.dateTo >= :date')
+                ->setParameter('date', new \DateTime());
+        }
 
-    /*
-    public function findOneBySomeField($value): ?Cena
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+        if ($filter) {
+            $dateCondition = [];
+            $dateParameters = [];
+
+            if ($filter->dateFrom) {
+                $dateCondition[] = 'c.dateFrom <= :dateFrom AND c.dateTo >= :dateFrom';
+                $dateParameters['dateFrom'] = $filter->dateFrom;
+            }
+
+            if ($filter->dateTo) {
+                $dateCondition[] = 'c.dateFrom <= :dateTo AND c.dateTo >= :dateTo';
+                $dateParameters['dateTo'] = $filter->dateTo;
+            }
+
+            if (!empty($dateCondition) && !empty($dateParameters)) {
+                $queryBuilder = $queryBuilder
+                    ->andWhere(implode(' OR ', $dateCondition));
+
+                foreach ($dateParameters as $key => $dateParameter) {
+                    $queryBuilder = $queryBuilder
+                        ->setParameter($key, $dateParameter);
+                }
+            }
+        }
+
+
+        return $queryBuilder
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
     }
-    */
 }

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Client;
 use App\Entity\Rent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -14,37 +15,27 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class RentRepository extends ServiceEntityRepository
 {
+    /**
+     * RentRepository constructor.
+     * @param RegistryInterface $registry
+     */
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Rent::class);
     }
 
-//    /**
-//     * @return Wynajencie[] Returns an array of Wynajencie objects
-//     */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param Client $client
+     * @return array
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findByClient(Client $client): array
     {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('w.id', 'ASC')
-            ->setMaxResults(10)
+        return $this->createQueryBuilder('r')
+            ->leftJoin('r.booking', 'bkng')
+            ->andWhere('bkng.client = :client')
+            ->setParameter('client', $client)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Wynajencie
-    {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

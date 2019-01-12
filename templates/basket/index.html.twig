@@ -1,0 +1,64 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="catalog-container">
+            {% if halls is empty %}
+                <div class="alert alert-danger" role="alert">
+                    Niestety koszyk jest pusty, dodaj oferty które spodobają się w
+                    <a href="{{ path('catalog') }}" class="alert-link">katalogu</a>
+                </div>
+            {% else %}
+                {% for hall in halls %}
+                {% set price = priceService.getByDate(hall) %}
+                <div class="card">
+                    <div class="card-body hall-card-body">
+                        {% if not price is null %}
+                            <div class="hall-price">
+                                <h4>{{ price.value }},-</h4>
+                                <p class="small">za godzine</p>
+                            </div>
+                        {% endif %}
+                        <div class="hall-images">
+                            <div class="hall-image-main"
+                                 style="
+                                         background: url('/uploads/images/{{ hall.images[0].filePath }}') center center;
+                                         background-size: 100% auto;
+                                     "
+                            >
+                            </div>
+                            <div class="hall-images-preview">
+                                <img src="/uploads/images/{{ hall.images[1].filePath }}" />
+                                <img src="/uploads/images/{{ hall.images[2].filePath }}" />
+                                <img src="/uploads/images/{{ hall.images[3].filePath }}" />
+                            </div>
+                        </div>
+                        <div class="hall-description">
+                            <h3>
+                                <a href="{{ path('item', {id: hall.id}) }}">
+                                    {{ hall.name }}
+                                </a>
+                            </h3>
+                            <p><b>Miasto:</b>{{ hall.city }}</p>
+                            <p><b>Adresa:</b>{{ hall.address }}</p>
+                            <div class="btn-group-sm">
+                                <a href="#"
+                                   data-id="{{ hall.id }}"
+                                   class="btn btn-danger btn-sm remove-from-card"
+                                >
+                                    Usuń z koszyka
+                                </a>
+                                <a href="{{ path('item', {id: hall.id}) }}" class="btn btn-success btn-sm">
+                                    Zobacz
+                                </a>
+                                <a href="{{ path('book', {id: hall.id}) }}" class="btn btn-primary btn-sm">
+                                    Rezerwuj
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

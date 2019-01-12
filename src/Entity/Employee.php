@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Employee extends User
 {
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $pesel;
 
