@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entity\Employee;
 use App\Entity\User;
 use App\Enum\UserRoleEnum;
+use App\Repository\HallRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +28,16 @@ class EmployeeService
     private $encoder;
 
     /**
+     * @var HallRepository $hallRepository
+     */
+    private $hallRepository;
+
+    /**
      * StaffService constructor.
      * @param UserRepository $userRepository
      * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $encoder
+     * @param HallRepository $hallRepository
      */
     public function __construct(
         UserRepository $userRepository,

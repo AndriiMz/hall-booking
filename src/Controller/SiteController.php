@@ -135,6 +135,7 @@ class SiteController extends Controller
     {
         $item = $this->catalogService->getItem($id);
         $price = $this->priceService->getByDate($item);
+        $errors = [];
 
         $user = $this->getUser();
 
@@ -144,9 +145,27 @@ class SiteController extends Controller
 
         if ($request->isMethod(RequestTypeEnum::POST)) {
             $user = $this->getUser();
-            if (null === $user) {
-                $user = $this->registrationService->fromBookingRequest($request);
+            try {
+                if (null === $user) {
+                    $user = $this->registrationService->fromBookingRequest($request);
+                }
+            } catch (\Exception $e) {
+                $errors[] = $e->getMessage();
             }
+
+
+            if (!empty($errors)) {
+                return $this->render(
+                    'site/book.html.twig',
+                    [
+                        'hall' => $item,
+                        'price' => $price,
+                        'user' => $user,
+                        'errors' => $errors
+                    ]
+                );
+            }
+
 
             $booking = $this->bookingService->add(
                 $request,
@@ -167,7 +186,8 @@ class SiteController extends Controller
             [
                 'hall' => $item,
                 'price' => $price,
-                'user' => $user
+                'user' => $user,
+                'errors' => null
             ]
         );
     }

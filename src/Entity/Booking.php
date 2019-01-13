@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -49,6 +50,12 @@ class Booking
      * @ORM\JoinColumn(nullable=true)
      */
     private $client;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Rent", mappedBy="booking", fetch="EXTRA_LAZY", cascade={"remove"})
+     * @var Collection $rents
+     */
+    private $rents;
 
     /**
      * @return mixed

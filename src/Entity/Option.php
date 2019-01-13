@@ -20,7 +20,7 @@ class Option
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private $nameO;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -34,12 +34,12 @@ class Option
 
     public function getName(): ?string
     {
-        return $this->name;
+        return $this->nameO;
     }
 
     public function setName(string $name): self
     {
-        $this->name = $name;
+        $this->nameO = $name;
 
         return $this;
     }

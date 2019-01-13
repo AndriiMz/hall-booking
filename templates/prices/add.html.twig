@@ -1,28 +1,43 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Dodawanie ceny do sali {{ hall.nazwa }}</h3>
-        <div class="login-form">
-            <form method="post" action="{{ path('price_add', {id: id}) }}">
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="value" class="form-control" placeholder="Wartość" required="" />
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Dodawanie ceny do sali "{{ hall.name }}"</h3>
+            </div>
+            <div class="card-body">
+                <div class="login-form">
+                    <form method="post" action="{{ path('price_add', {id: id}) }}">
+                        <div class="form-row row">
+                            <label for="value" class="col-sm-2 col-form-label">
+                                Wartość
+                            </label>
+                            <div class="col-md-10 mb-3">
+                                <input type="text" name="value" id="value" class="form-control" placeholder="Wartość" required="" />
+                            </div>
+                        </div>
+                        <div class="form-row row">
+                            <label for="dateFrom" class="col-sm-2 col-form-label">
+                                Data od
+                            </label>
+                            <div class="col-md-10 mb-3">
+                                <input type="date" name="dateFrom" id="dateFrom" class="form-control" placeholder="Data od" required="" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <label for="dateFrom" class="col-sm-2 col-form-label">
+                                Data d
+                            </label>
+                            <div class="col-md-10 mb-3">
+                                <input type="date" name="dateTo" id="dateTo" class="form-control" placeholder="Data do" required="" />
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="date" name="dateFrom" class="form-control" placeholder="Data od" required="" />
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="date" name="dateTo" class="form-control" placeholder="Data do" required="" />
-                    </div>
-                </div>
-                <div class="form-footer">
-                    <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 {% endblock %}

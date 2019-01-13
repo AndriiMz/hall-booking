@@ -24,7 +24,11 @@
         <div class="card-body">
             <form method="post" action="{{ path('book', {id: hall.id}) }}">
                 <h4>Rezerwajca sali</h4>
-
+                    {% if errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ errors }}
+                        </div>
+                    {% endif %}
                     <div class="form-row">
                         <label for="firstName" class="col-sm-2 col-form-label">
                             Imie
@@ -113,7 +117,6 @@
                         </div>
                     </div>
                     {% endif %}
-
                 <div class="form-row row">
                     <label for="dateFrom" class="col-sm-2 col-form-label">
                         Data od

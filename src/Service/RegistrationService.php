@@ -6,6 +6,7 @@ use App\Entity\Client;
 use App\Entity\Employee;
 use App\Entity\User;
 use App\Enum\UserRoleEnum;
+use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -17,15 +18,20 @@ class RegistrationService
      * @var UserPasswordEncoderInterface
      */
     private $encoder;
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
 
     /**
      * @param EntityManagerInterface $em
      * @param UserPasswordEncoderInterface $encoder
      */
-    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder)
+    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $encoder, UserRepository $userRepository)
     {
         $this->em = $em;
         $this->encoder = $encoder;
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -100,6 +106,15 @@ class RegistrationService
      */
     public function fromBookingRequest(Request $request): User
     {
+        $username = $request->get('username');
+        $user = $this->userRepository->findBy(
+            ['username' => $username]
+        );
+
+        if (null !== $user) {
+            throw new \Exception('Użytkownik z takim loginem już istnieje');
+        }
+
         $user = new Client();
         $user->setFirstName(
             $request->get('firstName')
@@ -110,8 +125,9 @@ class RegistrationService
         $user->setPhone(
             $request->get('phone')
         );
+
         $user->setUsername(
-            $request->get('username')
+            $username
         );
 
         $password = $request->get('password');

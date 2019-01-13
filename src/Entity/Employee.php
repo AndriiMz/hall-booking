@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\UserRoleEnum;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -31,6 +32,18 @@ class Employee extends User
      * @ORM\Column(type="string", length=40)
      */
     private $lastName;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Hall", mappedBy="employee", fetch="EXTRA_LAZY", cascade={"remove"})
+     * @var Collection $halls
+     */
+    private $halls;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Rent", mappedBy="approvedBy", fetch="EXTRA_LAZY", cascade={"remove"})
+     * @var Collection $rents
+     */
+    private $rents;
 
     public function getRoles(): array
     {

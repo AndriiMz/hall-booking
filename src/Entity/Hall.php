@@ -55,19 +55,19 @@ class Hall
     private $options;
 
     /**
-     * @ORM\OneToMany(targetEntity="Price", mappedBy="hall", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Price", mappedBy="hall", fetch="EXTRA_LAZY", cascade={"remove"})
      * @var Collection $prices
      */
     private $prices;
 
     /**
-     * @ORM\OneToMany(targetEntity="Image", mappedBy="hall", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="hall", fetch="EXTRA_LAZY", cascade={"remove"})
      * @var Collection $images
      */
     private $images;
 
     /**
-     * @ORM\OneToMany(targetEntity="Booking", mappedBy="hall", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="Booking", mappedBy="hall", fetch="EXTRA_LAZY", cascade={"remove"})
      * @var Collection $booking
      */
     private $booking;

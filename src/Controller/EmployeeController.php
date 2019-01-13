@@ -83,6 +83,7 @@ class EmployeeController extends Controller
     public function removeAction(int $id): Response {
         $this->employeeService->deleteUser($id);
 
+
         return $this->redirectToRoute('employee_list');
     }
 
