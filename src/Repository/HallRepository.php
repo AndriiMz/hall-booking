@@ -42,6 +42,12 @@ class HallRepository extends ServiceEntityRepository
      */
     public function findByCatalogFilter(CatalogFilter $catalogFilter): array
     {
+        $sortMapping = [
+            'price' => 'price.value',
+            'area' => 'h.area'
+        ];
+
+
         $queryBuilder = $this->createQueryBuilder('h');
 
         if ($catalogFilter->options && !empty($catalogFilter->options)) {
@@ -55,48 +61,67 @@ class HallRepository extends ServiceEntityRepository
                 );
         }
 
-        if ($catalogFilter->hasPriceFiltering()) {
-            $queryBuilder = $queryBuilder->leftJoin('h.prices', 'price');
 
-            $dateCondition = [];
-            $dateParameters = [];
+        $queryBuilder = $queryBuilder->leftJoin('h.prices', 'price');
 
-            if ($catalogFilter->dateFrom) {
-                $dateCondition[] = 'price.dateFrom <= :dateFrom AND price.dateTo >= :dateFrom';
-                $dateParameters['dateFrom'] = $catalogFilter->dateFrom;
-            }
+        $dateCondition = [];
+        $dateParameters = [];
 
-            if ($catalogFilter->dateTo) {
-                $dateCondition[] = 'price.dateFrom <= :dateTo AND price.dateTo >= :dateTo';
-                $dateParameters['dateTo'] = $catalogFilter->dateTo;
-            }
-
-            if (!empty($dateCondition) && !empty($dateParameters)) {
-                $queryBuilder = $queryBuilder
-                    ->andWhere(implode(' OR ', $dateCondition));
-
-                foreach ($dateParameters as $key => $dateParameter) {
-                    $queryBuilder = $queryBuilder
-                        ->setParameter($key, $dateParameter);
-                }
-            } else {
-                $queryBuilder = $queryBuilder
-                    ->andWhere('price.dateFrom <= :date AND price.dateTo >= :date')
-                    ->setParameter('date', new \DateTime());
-            }
-
-            if ($catalogFilter->priceFrom) {
-                $queryBuilder = $queryBuilder
-                    ->andWhere('price.value >= :priceFrom')
-                    ->setParameter('priceFrom', $catalogFilter->priceFrom);
-            }
-
-            if ($catalogFilter->priceTo) {
-                $queryBuilder = $queryBuilder
-                    ->andWhere('price.value <= :priceTo')
-                    ->setParameter('priceTo', $catalogFilter->priceTo);
-            }
+        if ($catalogFilter->dateFrom) {
+            $dateCondition[] = 'price.dateFrom <= :dateFrom AND price.dateTo >= :dateFrom';
+            $dateParameters['dateFrom'] = $catalogFilter->dateFrom;
         }
+
+        if ($catalogFilter->dateTo) {
+            $dateCondition[] = 'price.dateFrom <= :dateTo AND price.dateTo >= :dateTo';
+            $dateParameters['dateTo'] = $catalogFilter->dateTo;
+        }
+
+        if (!empty($dateCondition) && !empty($dateParameters)) {
+            $queryBuilder = $queryBuilder
+                ->andWhere(implode(' OR ', $dateCondition));
+
+            foreach ($dateParameters as $key => $dateParameter) {
+                $queryBuilder = $queryBuilder
+                    ->setParameter($key, $dateParameter);
+            }
+        } else {
+            $queryBuilder = $queryBuilder
+                ->andWhere('price.dateFrom <= :date AND price.dateTo >= :date')
+                ->setParameter('date', new \DateTime());
+        }
+
+        if ($catalogFilter->priceFrom) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('price.value >= :priceFrom')
+                ->setParameter('priceFrom', $catalogFilter->priceFrom);
+        }
+
+        if ($catalogFilter->priceTo) {
+            $queryBuilder = $queryBuilder
+                ->andWhere('price.value <= :priceTo')
+                ->setParameter('priceTo', $catalogFilter->priceTo);
+        }
+
+        if (!$catalogFilter->priceFrom && !$catalogFilter->priceTo) {
+            $queryBuilder = $queryBuilder
+                ->orWhere('price.id IS NULL');
+        }
+
+
+        $sort = ['h.id', 'ASC'];
+
+        if ($catalogFilter->sortRaw) {
+            $sortArr = explode('.', $catalogFilter->sortRaw);
+
+            $sort[0] = $sortMapping[$sortArr[1]];
+            $sort[1] = strtoupper($sortArr[0]);
+        }
+
+        $queryBuilder = $queryBuilder->orderBy(
+            $sort[0],
+            $sort[1]
+        );
 
         return $queryBuilder
             ->getQuery()

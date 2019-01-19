@@ -1,18 +1,27 @@
 {%  extends 'layout/default.html.twig' %}
 {% block body %}
     <div class="container">
-        <h3>Dodawanie ceny do sali {{ hall.nazwa }}</h3>
-        <div class="login-form">
-            <form method="post" action="{{ path('image_add', {id: id}) }}" enctype="multipart/form-data">
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="file" name="image" required="" />
-                    </div>
+        <div class="card">
+            <div class="card-header">
+                <h3>Dodawanie zdjęcia do sali {{ hall.name }}</h3>
+            </div>
+            <div class="card-body">
+                <div class="login-form">
+                    <form method="post" action="{{ path('image_add', {id: id}) }}" enctype="multipart/form-data">
+                        <div class="form-row">
+                            <div class="col-md-12 mb-3">
+                                <input type="file" name="image" required="" />
+                            </div>
+                        </div>
+                        <div class="form-footer">
+                            <button onclick="window.history.back();" class="btn btn-lg">
+                                Wstecz
+                            </button>
+                            <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-footer">
-                    <button class="btn btn-primary btn-lg" type="submit">Dodaj</button>
-                </div>
-            </form>
+            </div>
         </div>
     </div>
 {% endblock %}

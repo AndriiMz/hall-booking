@@ -6,13 +6,21 @@
                 <h3>Wynajęcia</h3>
             </div>
             <div class="card-body">
+                <div class="btn-group btn-group-toggle mb-2">
+                    <a href="{{ path('account') }}" class="btn btn-dark btn-lg">
+                        Wstecz
+                    </a>
+                    <a id="print-rent-report" href="#" class="btn btn-success btn-lg">
+                        Drukuj raport
+                    </a>
+                </div>
                 <table class="table table-borderless">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
                         <th scope="col">Sala</th>
                         <th scope="col">Data</th>
-                        <th scope="col">Ilość osób</th>
+                        <th scope="col">Liczba osób</th>
                         <th scope="col">Suma</th>
                         <th scope="col">Klient</th>
                     </tr>
@@ -28,7 +36,7 @@
                             <td>
                                 <span><i>Imie</i>: {{ rent.booking.client.firstName }}</span><br />
                                 <span><i>Telefon</i>: {{ rent.booking.client.phone }}</span><br />
-                                <span><i>Poczta</i>: {{ rent.booking.client.email }}</span>
+                                <span><i>E-mail</i>: {{ rent.booking.client.email }}</span>
                             </td>
                         </tr>
                     {% endfor %}

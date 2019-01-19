@@ -3,25 +3,30 @@
     <div class="container">
         <div class="login-form">
             <form method="post" action="{{ path('registration') }}">
-                <h4>Rejastacja</h4>
+                <h4>Rejestracja</h4>
+                {% if errors %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ errors }}
+                    </div>
+                {% endif %}
                 <div class="form-row">
                     <div class="col-md-12 mb-3">
-                        <input type="text" name="firstName" class="form-control" placeholder="Imie" required="" />
+                        <input type="text" value="{{ request.get('firstName') }}" name="firstName" class="form-control" placeholder="Imie" required="" />
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-3">
-                        <input type="email" name="email" class="form-control" placeholder="Poczta" required="" />
+                        <input type="email" value="{{ request.get('email') }}" name="email" class="form-control" placeholder="E-mail" required="" />
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-3">
-                        <input type="text" name="phone" class="form-control" placeholder="Telefon" required="" />
+                        <input type="text" value="{{ request.get('phone') }}" name="phone" class="form-control" placeholder="Telefon" required="" />
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="col-md-12 mb-3">
-                        <input type="text" name="username" class="form-control" placeholder="Login" required="" />
+                        <input type="text" value="{{ request.get('username') }}" name="username" class="form-control" placeholder="Login" required="" />
                     </div>
                 </div>
                 <div class="form-row">

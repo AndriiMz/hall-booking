@@ -6,7 +6,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3>Wyszukiwanie sali</h3>
-                    <form method="get">
+                    <form method="get" id="catalog-filter">
                         <p><b>Data</b></p>
                         <div class="form-group row">
                             <label for="dateFrom" class="col-sm-3 col-form-label">od:</label>
@@ -82,6 +82,8 @@
                                 </label>
                             </div>
                         {% endfor %}
+                        <input type="hidden" name="sort[asc]" />
+                        <input type="hidden" name="sort[desc]" />
                         <div class="form-footer">
                             <button class="btn btn-primary btn-lg" type="submit">Wyszukaj</button>
                         </div>
@@ -90,67 +92,107 @@
             </div>
         </div>
         <div class="col-sm-9 catalog-container">
-            {% for hall in halls %}
-                {% set price = priceService.getByDate(hall, filter) %}
-                <div class="card">
-                    <div class="card-body hall-card-body">
-                        {% if not price is null %}
-                            <div class="hall-price">
-                                <h4>{{ price.value }},-</h4>
-                                <p class="small">za godzine</p>
-                            </div>
-                        {% endif %}
-                        <div class="hall-images">
-                            <div class="hall-image-main"
-                                 style="
-                                         background: url('/uploads/images/{{ hall.images[0].filePath }}') center center;
-                                         background-size: 100% auto;
-                                     "
-                            >
-                            </div>
-                            <div class="hall-images-preview">
-                                <img src="/uploads/images/{{ hall.images[1].filePath }}" />
-                                <img src="/uploads/images/{{ hall.images[2].filePath }}" />
-                                <img src="/uploads/images/{{ hall.images[3].filePath }}" />
-                            </div>
-                        </div>
-                        <div class="hall-description">
-                            {% if price is null %}
-                                <div class="alert alert-warning" role="alert">
-                                    Sala nie ma ceny w ybranym zakresie dat.
-                                    Prosze o kontakt z pracownikiem {{ hall.employee.phone }} ({{ hall.employee.firstName }})
+            <div class="form-group row">
+                <label for="sort-halls" class="offset-md-6 col-md-2 col-form-label text-right">Srotowanie:</label>
+                <div class="col-md-4">
+                    <select class="form-control" id="sort-halls">
+                        <option value="">Bez sortowania</option>
+                        <option
+                                {% if filter.hasSortColumn('asc.price') %}selected{% endif %}
+                                value="asc.price"
+                        >
+                            Cena: rosnąco
+                        </option>
+                        <option
+                                {% if filter.hasSortColumn('desc.price') %}selected{% endif %}
+                                value="desc.price"
+                        >
+                            Cena: malejąco
+                        </option>
+                        <option
+                                {% if filter.hasSortColumn('asc.area') %}selected{% endif %}
+                                value="asc.area"
+                        >
+                            Pole powierzchni: rosnąco
+                        </option>
+                        <option
+                                {% if filter.hasSortColumn('desc.area') %}selected{% endif %}
+                                value="desc.area"
+                        >
+                            Pole powierzchni: malejąco
+                        </option>
+                    </select>
+                </div>
+            </div>
+            {% if halls is empty %}
+            <div class="alert alert-danger" role="alert">
+                Niestety nie znaleziono ofert o wybranych parametrach.
+                Zmień parametry wyszukiwania lub zobać całą liste w
+                <a href="{{ path('catalog') }}" class="alert-link">katalogu</a>
+            </div>
+            {% else %}
+                {% for hall in halls %}
+                    {% set price = priceService.getByDate(hall, filter) %}
+                    <div class="card">
+                        <div class="card-body hall-card-body">
+                            {% if not price is null %}
+                                <div class="hall-price">
+                                    <h4>{{ price.value }},-</h4>
+                                    <p class="small">za godzine</p>
                                 </div>
                             {% endif %}
-                            <h3>
-                                <a href="{{ path('item', {id: hall.id}) }}">
-                                    {{ hall.name }}
-                                </a>
-                            </h3>
-                            <p><b>Miasto:</b>{{ hall.city }}</p>
-                            <p><b>Adres:</b>{{ hall.address }}</p>
-                            <p><b>Pole powierzchni:</b>{{ hall.area }} m2</p>
-                            <div class="btn-group-sm">
-                                {% if hall.id not in basketItems %}
-                                    <a href="#"
-                                       data-id="{{ hall.id }}"
-                                       class="btn btn-success btn-sm add-to-card"
-                                    >
-                                        Dodaj do koszyka
-                                    </a>
+                            <div class="hall-images">
+                                <div class="hall-image-main"
+                                     style="
+                                             background: url('/uploads/images/{{ hall.images[0].filePath }}') center center;
+                                             background-size: 100% auto;
+                                         "
+                                >
+                                </div>
+                                <div class="hall-images-preview">
+                                    <img src="/uploads/images/{{ hall.images[1].filePath }}" />
+                                    <img src="/uploads/images/{{ hall.images[2].filePath }}" />
+                                    <img src="/uploads/images/{{ hall.images[3].filePath }}" />
+                                </div>
+                            </div>
+                            <div class="hall-description">
+                                {% if price is null %}
+                                    <div class="alert alert-warning" role="alert">
+                                        Sala nie ma ceny w ybranym zakresie dat.
+                                        Prosze o kontakt z pracownikiem {{ hall.employee.phone }} ({{ hall.employee.firstName }})
+                                    </div>
                                 {% endif %}
+                                <h3>
+                                    <a href="{{ path('item', {id: hall.id}) }}">
+                                        {{ hall.name }}
+                                    </a>
+                                </h3>
+                                <p><b>Miasto:</b>{{ hall.city }}</p>
+                                <p><b>Adres:</b>{{ hall.address }}</p>
+                                <p><b>Pole powierzchni:</b>{{ hall.area }} m2</p>
+                                <div class="btn-group-sm">
+                                    {% if hall.id not in basketItems %}
+                                        <a href="#"
+                                           data-id="{{ hall.id }}"
+                                           class="btn btn-success btn-sm add-to-card"
+                                        >
+                                            Dodaj do koszyka
+                                        </a>
+                                    {% endif %}
 
-                                <a href="{{ path('item', {id: hall.id}) }}" class="btn btn-success btn-sm">
-                                    Zobać
-                                </a>
+                                    <a href="{{ path('item', {id: hall.id}) }}" class="btn btn-success btn-sm">
+                                        Zobać
+                                    </a>
 
-                                <a href="{{ path('book', {id: hall.id}) }}" class="btn btn-primary btn-sm">
-                                    Rezerwuj
-                                </a>
+                                    <a href="{{ path('book', {id: hall.id}) }}" class="btn btn-primary btn-sm">
+                                        Rezerwuj
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>

@@ -32,6 +32,17 @@ class CatalogFilter
     public $options;
 
     /**
+     * @var array
+     */
+    public $sort;
+
+    /**
+     * @var string
+     */
+    public $sortRaw;
+
+
+    /**
      * @param Request $request
      * @return CatalogFilter
      */
@@ -46,15 +57,45 @@ class CatalogFilter
         }
 
         $date = $request->get('date');
-        if ($date) {
+        if ($date && !empty($date['from'])) {
             $instance->dateFrom = new \DateTime($date['from']);
+        }
+
+        if ($date && !empty($date['to'])) {
             $instance->dateTo = new \DateTime($date['to']);
         }
 
         $options = $request->get('options');
         $instance->options = $options;
 
+        $instance->sort = $request->get('sort');
+
+        if (!empty($instance->sort)) {
+            $instance->sort = array_filter(
+                $instance->sort,
+                function($item) {
+                    return !empty($item);
+                }
+            );
+
+
+            $instance->sortRaw = implode('', array_map(
+                function ($v, $k) { return sprintf('%s.%s', $k, $v); },
+                $instance->sort,
+                array_keys($instance->sort)
+            ));
+        }
+
         return $instance;
+    }
+
+    /**
+     * @param $sortColumn
+     * @return bool
+     */
+    public function hasSortColumn($sortColumn): bool
+    {
+        return $this->sortRaw && $this->sortRaw === $sortColumn;
     }
 
 

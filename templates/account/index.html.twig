@@ -20,9 +20,12 @@
             <a href="{{ path('rents_list') }}" class="btn btn-primary btn-lg">
                 Wynajęcia
             </a>
+            <a href="{{ path('clients_list') }}" class="btn btn-success btn-lg">
+                Klienci
+            </a>
         {% endif %}
         <a href="{{ path('profile_edit') }}" class="btn btn-success btn-lg">
-            Edytuj swoje dane
+            Edycja konta
         </a>
     </div>
     {% if app.user.role == 'CLIENT_ROLE' %}
@@ -37,7 +40,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Sala</th>
                         <th scope="col">Data</th>
-                        <th scope="col">Ilość osób</th>
+                        <th scope="col">Liczba osób</th>
                         <th scope="col">Komentarz</th>
                     </tr>
                     </thead>
@@ -67,7 +70,7 @@
                         <th scope="col">#</th>
                         <th scope="col">Sala</th>
                         <th scope="col">Data</th>
-                        <th scope="col">Ilość osób</th>
+                        <th scope="col">Liczba osób</th>
                         <th scope="col">Suma</th>
                     </tr>
                     </thead>

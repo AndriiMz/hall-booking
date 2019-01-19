@@ -33,11 +33,10 @@ class SecurityController extends Controller
 
     /**
      * @Route("/login", name="login")
-     * @param Request $request
      * @param AuthenticationUtils $authUtils
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function loginAction(Request $request,  AuthenticationUtils $authUtils)
+    public function loginAction(AuthenticationUtils $authUtils)
     {
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();
@@ -59,18 +58,32 @@ class SecurityController extends Controller
      */
     public function registrationAction(Request $request): Response
     {
-        if ($request->isMethod(RequestTypeEnum::POST)) {
-            $user = $this->registrationService->fromRequest($request);
+        $errors = [];
 
-            return $this->redirectToRoute(
-                'registration_success',
-                [
-                    'id' => $user->getId()
-                ]
-            );
+        if ($request->isMethod(RequestTypeEnum::POST)) {
+            try {
+                $user = $this->registrationService->fromRequest($request);
+            } catch (\Exception $e) {
+                $errors[] = $e->getMessage();
+            }
+
+            if (empty($errors)) {
+                return $this->redirectToRoute(
+                    'registration_success',
+                    [
+                        'id' => $user->getId()
+                    ]
+                );
+            }
         }
 
-        return $this->render('security/registration.html.twig');
+        return $this->render(
+            'security/registration.html.twig',
+            [
+                'errors' => implode(',', $errors),
+                'request' => $request
+            ]
+        );
     }
 
     /**

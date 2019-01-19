@@ -1,0 +1,39 @@
+{%  extends 'layout/default.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h3>Klienci</h3>
+            </div>
+            <div class="card-body">
+                <div class="btn-group btn-group-toggle mb-2">
+                    <a href="{{ path('account') }}" class="btn btn-dark btn-lg">
+                        Wstecz
+                    </a>
+                </div>
+                <table class="table table-borderless">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Imie</th>
+                        <th scope="col">Telefon</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Adres</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for client in clients %}
+                        <tr>
+                            <th scope="row">{{ client.id }}</th>
+                            <td>{{ client.firstName }}</td>
+                            <td>{{ client.phone }}</td>
+                            <td>{{ client.email }}</td>
+                            <td>{{ client.city }} {{ client.address }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

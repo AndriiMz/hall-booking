@@ -52,7 +52,7 @@ $(document).ready(function() {
 
    });
 
-    $('.remove-from-card').click(function(e) {
+   $('.remove-from-card').click(function(e) {
         e.preventDefault();
 
         var request = $.ajax({
@@ -73,4 +73,72 @@ $(document).ready(function() {
 
     });
 
+   $('#sort-halls').change(function(e) {
+        e.preventDefault();
+
+        var sortType = $(this).val();
+        var sortInputs = {
+            asc:  $('#catalog-filter input[name="sort[asc]"]'),
+            desc: $('#catalog-filter input[name="sort[desc]"]')
+        };
+
+        sortInputs.asc.val('');
+        sortInputs.desc.val('');
+
+        if (sortType.length > 0) {
+            var sortTypeArr = sortType.split('.');
+
+            if (sortInputs[sortTypeArr[0]]) {
+                sortInputs[sortTypeArr[0]].val(sortTypeArr[1]);
+            }
+        }
+
+        $('#catalog-filter').submit();
+   });
+
+   $('#print-booking-report').click(function(e) {
+       e.preventDefault();
+       var dateFrom = $('[name="date[from]"]').val(),
+           dateTo = $('[name="date[to]"]').val();
+
+       var request = $.ajax({
+           url: "/account/bookings/report/csv?date[from]=" + dateFrom + "&date[to]=" + dateTo,
+           method: "GET",
+       });
+
+       request.done(function(response) {
+           var date = new Date();
+           var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+           var filename = 'rezerwacje-raport' + iso[1] + 'T' + iso[2] + '.csv';
+           var blob = new Blob([response], { type: 'text/csv' });
+           var link = document.createElement('a');
+           link.href = window.URL.createObjectURL(blob);
+           link.download = filename;
+           document.body.appendChild(link);
+           link.click();
+           document.body.removeChild(link);
+       });
+   });
+
+   $('#print-rent-report').click(function(e) {
+       e.preventDefault();
+
+       var request = $.ajax({
+           url: "/account/rent/report/csv",
+           method: "GET",
+       });
+
+       request.done(function(response) {
+           var date = new Date();
+           var iso = date.toISOString().match(/(\d{4}\-\d{2}\-\d{2})T(\d{2}:\d{2}:\d{2})/);
+           var filename = 'wynajecia-raport' + iso[1] + 'T' + iso[2] + '.csv';
+           var blob = new Blob([response], { type: 'text/csv' });
+           var link = document.createElement('a');
+           link.href = window.URL.createObjectURL(blob);
+           link.download = filename;
+           document.body.appendChild(link);
+           link.click();
+           document.body.removeChild(link);
+       });
+   });
 });

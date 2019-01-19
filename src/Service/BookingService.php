@@ -7,6 +7,7 @@ use App\Entity\Client;
 use App\Entity\Hall;
 use App\Entity\User;
 use App\Entity\Rent;
+use App\Filter\BookingFilter;
 use App\Filter\CatalogFilter;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -122,7 +123,7 @@ class BookingService
      * @param Client|null $client
      * @return array|Rent
      */
-    public function getList(Client $client = null): array
+    public function getList(Client $client = null, BookingFilter $filter = null): array
     {
         $userCondition = '';
         $userJoin = '';
@@ -132,15 +133,29 @@ class BookingService
             $userCondition = sprintf('AND c.id = %s', $client->getId());
         }
 
+        $dateCondition = '';
+        if ($filter && ($filter->dateFrom || $filter->dateTo)) {
+            $dateConds = [];
+            if ($filter->dateFrom) {
+                $dateConds[] = sprintf('b.date_from <= "%s"', $filter->dateFrom->format('Y-m-d'));
+            }
+            if ($filter->dateTo) {
+                $dateConds[] = sprintf('b.date_to >= "%s"', $filter->dateTo->format('Y-m-d'));
+            }
+
+            $dateCondition = ' AND ' . implode(' AND ', $dateConds);
+        }
+
         $sqlQuery = sprintf('SELECT 
             b.*
             FROM 
             booking b 
             LEFT JOIN rent r 
             ON r.booking_id = b.id 
-            %s WHERE r.id IS NULL %s',
+            %s WHERE r.id IS NULL %s %s',
             $userJoin,
-            $userCondition
+            $userCondition,
+            $dateCondition
         );
 
         $rsm = new ResultSetMappingBuilder($this->em);

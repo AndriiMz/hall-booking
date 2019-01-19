@@ -40,6 +40,16 @@ class RegistrationService
      */
     public function fromRequest(Request $request): User
     {
+
+        $username = $request->get('username');
+        $user = $this->userRepository->findBy(
+            ['username' => $username]
+        );
+
+        if (null !== $user) {
+            throw new \Exception('Użytkownik z takim loginem już istnieje');
+        }
+
         $user = new Client();
         $user->setFirstName($request->get('firstName'));
         $user->setEmail($request->get('email'));
