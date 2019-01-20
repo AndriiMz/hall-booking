@@ -4,14 +4,20 @@
         <div class="login-form">
             <form method="post" action="{{ path('login') }}">
                 <h4>Logowanie</h4>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" name="_username" class="form-control" placeholder="Username" required="" />
+                <div class="form-row row">
+                    <label for="value" class="col-md-2 col-form-label">
+                        Login
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text" name="_username" class="form-control" placeholder="Login" required="" />
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                    <input type="password" name="_password" class="form-control" placeholder="Password" required="" />
+                <div class="form-row row">
+                    <label for="value" class="col-md-2 col-form-label">
+                        Hasło
+                    </label>
+                    <div class="col-md-10 mb-3">
+                         <input type="password" name="_password" class="form-control" placeholder="Hasło" required="" />
                     </div>
                 </div>
                 <div class="form-footer">

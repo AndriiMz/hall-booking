@@ -9,28 +9,43 @@
                         {{ errors }}
                     </div>
                 {% endif %}
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
-                        <input type="text" value="{{ request.get('firstName') }}" name="firstName" class="form-control" placeholder="Imie" required="" />
+                <div class="form-row row">
+                    <label for="value" class="col-md-2 col-form-label">
+                        Imię
+                    </label>
+                    <div class="col-md-10 mb-3">
+                        <input type="text" value="{{ request.get('firstName') }}" name="firstName" class="form-control" placeholder="Imię" required="" />
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
+                <div class="form-row row">
+                    <label for="value" class="col-md-2 col-form-label">
+                        E-mail
+                    </label>
+                    <div class="col-md-10 mb-3">
                         <input type="email" value="{{ request.get('email') }}" name="email" class="form-control" placeholder="E-mail" required="" />
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
+                <div class="form-row row">
+                    <label for="value" class="col-md-2 col-form-label">
+                        Telefon
+                    </label>
+                    <div class="col-md-10 mb-3">
                         <input type="text" value="{{ request.get('phone') }}" name="phone" class="form-control" placeholder="Telefon" required="" />
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
+                <div class="form-row row">
+                    <label for="value" class="col-md-2 col-form-label">
+                        Login
+                    </label>
+                    <div class="col-md-10 mb-3">
                         <input type="text" value="{{ request.get('username') }}" name="username" class="form-control" placeholder="Login" required="" />
                     </div>
                 </div>
-                <div class="form-row">
-                    <div class="col-md-12 mb-3">
+                <div class="form-row row">
+                    <label for="value" class="col-md-2 col-form-label">
+                        Hasło
+                    </label>
+                    <div class="col-md-10 mb-3">
                         <input type="password" name="password" class="form-control" placeholder="Hasło" required="" />
                     </div>
                 </div>
